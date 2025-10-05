@@ -6,7 +6,15 @@ import ProfileImage from '@/components/img/Designer.jpeg'
 export function Hero() {
   return (
     <section id="top" className="relative flex min-h-[85vh] items-center justify-center overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/80 to-background" aria-hidden="true" />
+      <div
+        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(79,127,251,0.45),transparent_60%),radial-gradient(circle_at_80%_10%,rgba(255,166,41,0.35),transparent_65%),radial-gradient(circle_at_50%_80%,rgba(31,74,184,0.4),transparent_70%)]"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 -z-10 opacity-35 [background-image:linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:80px_80px]"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-gradient-to-br from-background/60 via-background/30 to-background" aria-hidden="true" />
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-4 text-center sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-8">
           <div className="relative">

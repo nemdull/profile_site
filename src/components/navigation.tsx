@@ -4,9 +4,9 @@ import { Github, Linkedin, Mail, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const navItems = [
-  { name: 'About', href: '#about' },
   { name: 'Experience', href: '#experience' },
   { name: 'Skills', href: '#skills' },
+  { name: 'Community', href: '#community' },
   { name: 'Projects', href: '#projects' },
   { name: 'Contact', href: '#contact' },
 ]
@@ -31,7 +31,7 @@ export function Navigation() {
     <header className={`fixed inset-x-0 top-0 z-50 transition-all ${isScrolled ? 'border-b bg-background/80 backdrop-blur' : ''}`}>
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#top" className="font-mono text-lg font-semibold text-primary">
-          {'<NEMDULL />'}
+          {"nemdull's Profile"}
         </a>
 
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
