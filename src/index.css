@@ -25,11 +25,11 @@
 }
 
 :root {
-  --background: #dbe7ff;
+  --background: rgba(219, 231, 255, 0.7);
   --foreground: #031335;
-  --card: #e7efff;
+  --card: rgba(231, 239, 255, 0.72);
   --card-foreground: #031335;
-  --popover: #e7efff;
+  --popover: rgba(231, 239, 255, 0.72);
   --popover-foreground: #031335;
   --primary: #143b9c;
   --primary-foreground: #f5faff;
@@ -46,11 +46,11 @@
 }
 
 .dark {
-  --background: #020617;
+  --background: rgba(2, 6, 23, 0.7);
   --foreground: #dbe7ff;
-  --card: #061137;
+  --card: rgba(6, 17, 55, 0.72);
   --card-foreground: #dbe7ff;
-  --popover: #061137;
+  --popover: rgba(6, 17, 55, 0.86);
   --popover-foreground: #dbe7ff;
   --primary: #4f7ffb;
   --primary-foreground: #020617;
@@ -72,6 +72,11 @@
     font-family: 'Aoboshi One', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
     font-feature-settings: 'palt' 1;
     font-weight: 500;
+    background-image: url('./components/img/wallpaper.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 }
 
