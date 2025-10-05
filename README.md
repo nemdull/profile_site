@@ -1,6 +1,6 @@
 # nemdull engineer profile site
 
-このリポジトリは、NemDull（ねむだる）のエンジニアプロフィールサイトを構築するためのVite + React + TypeScriptプロジェクトです。shadcn/uiのコンポーネントをベースに、ポートフォリオ向けのセクションを構成しています。
+このリポジトリは、NemDull（ねむだる）のエンジニアプロフィールサイトを構築するためのVite + React + TypeScriptプロジェクトです。shadcn/uiのコンポーネントをベースに、ポートフォリオ向けのセクションを構成しています。最新の公開版は [https://www.nemdull.com/](https://www.nemdull.com/) から閲覧できます。
 
 ## プロジェクト概要
 
