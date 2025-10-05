@@ -9,7 +9,7 @@ const highlights = [
 
 export function About() {
   return (
-    <section id="about" className="border-t bg-background py-16">
+    <section id="about" className="bg-background py-16">
       <div className="mx-auto flex max-w-5xl flex-col gap-10 px-4 sm:px-6 lg:px-8">
         <div className="space-y-4">
           <p className="font-mono text-xs uppercase tracking-[0.4em] text-primary">About</p>

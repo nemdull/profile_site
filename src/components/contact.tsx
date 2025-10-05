@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 export function Contact() {
   return (
-    <section id="contact" className="border-t bg-background py-16">
+    <section id="contact" className="bg-background py-16">
       <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
         <div className="space-y-4 text-center">
           <p className="font-mono text-xs uppercase tracking-[0.4em] text-primary">Contact</p>

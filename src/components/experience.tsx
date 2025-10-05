@@ -22,7 +22,7 @@ const experiences = [
 
 export function Experience() {
   return (
-    <section id="experience" className="border-t bg-muted/20 py-16">
+    <section id="experience" className="bg-muted/20 py-16">
       <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 bg-primary/10">
