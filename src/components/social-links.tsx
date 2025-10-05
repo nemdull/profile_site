@@ -16,7 +16,7 @@ const social = [
 
 export function SocialLinks() {
   return (
-    <section className="border-t bg-muted/10 py-12">
+    <section className="bg-muted/10 py-12">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <Card className="border-border/60 bg-card/80">
           <CardHeader className="space-y-2.5 text-center">

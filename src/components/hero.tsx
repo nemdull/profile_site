@@ -1,24 +1,35 @@
 import { Cpu, Terminal, Zap } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import ProfileImage from '@/components/img/Designer.jpeg'
 
 export function Hero() {
   return (
     <section id="top" className="relative flex min-h-[85vh] items-center justify-center overflow-hidden bg-background">
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background/80 to-background" aria-hidden="true" />
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-4 text-center sm:px-6 lg:px-8">
-        <div className="space-y-5">
-          <p className="font-mono text-sm uppercase tracking-[0.4em] text-primary">Application Engineer</p>
-          <div className="space-y-2">
-            <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">
-              <span className="text-primary font-mono">{'<NEMDULL/>'}</span>
-            </h1>
-            <h2 className="text-2xl font-mono text-muted-foreground sm:text-3xl">APPLICATION_ENGINEER.EXE</h2>
+        <div className="flex flex-col items-center gap-8">
+          <div className="relative">
+            <div className="absolute inset-0 -z-10 scale-110 rounded-full bg-primary/30 blur-3xl" aria-hidden="true" />
+            <img
+              src={ProfileImage}
+              alt="NEMDULL のプロフィール写真"
+              className="h-40 w-40 rounded-full border-4 border-primary/70 object-cover shadow-xl shadow-primary/30 sm:h-48 sm:w-48"
+            />
           </div>
-          <p className="mx-auto max-w-3xl text-base text-muted-foreground sm:text-lg">
-            2024年に金融系SIerへ新卒入社。Oracle APEX／PL/SQLを中核に、React・TypeScript・AWSを横断しながら
-            品質と開発速度を両立させるアプリケーションエンジニアです。
-          </p>
+          <div className="space-y-5">
+            <p className="font-mono text-sm uppercase tracking-[0.4em] text-primary">Application Engineer</p>
+            <div className="space-y-2">
+              <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">
+                <span className="text-primary font-mono">{'<NEMDULL/>'}</span>
+              </h1>
+              <h2 className="text-2xl font-mono text-muted-foreground sm:text-3xl">APPLICATION_ENGINEER.EXE</h2>
+            </div>
+            <p className="mx-auto max-w-3xl text-base text-muted-foreground sm:text-lg">
+              2024年に金融系SIerへ新卒入社。Oracle APEX／PL/SQLを中核に、React・TypeScript・AWSを横断しながら
+              品質と開発速度を両立させるアプリケーションエンジニアです。
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
