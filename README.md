@@ -1,75 +1,84 @@
-# React + TypeScript + Vite
+# nemdull engineer profile site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+このリポジトリは、NemDull（ねむだる）のエンジニアプロフィールサイトを構築するためのVite + React + TypeScriptプロジェクトです。shadcn/uiのコンポーネントをベースに、ポートフォリオ向けのセクションを構成しています。
 
-Currently, two official plugins are available:
+## プロジェクト概要
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **フレームワーク**: Vite + React 19 + TypeScript
+- **スタイル**: Tailwind CSS（shadcn/uiに合わせたトークン設定）
+- **コンポーネント**: shadcn/uiから移植した`Button` / `Badge` / `Card` / `Progress`などを活用
+- **アイコン**: [lucide-react](https://lucide.dev)
+- **構成セクション**:
+  - ナビゲーション（Navigation）
+  - ヒーローセクション（Hero）
+  - 自己紹介（About）
+  - 職歴（Experience）
+  - 技術スタック（Skills）
+  - プロジェクト一覧（Projects）
+  - SNSリンク（SocialLinks）
+  - お問い合わせ（Contact）
 
-## React Compiler
+## 必要環境
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- Node.js 20 以上
+- npm または任意のパッケージマネージャー
 
-Note: This will impact Vite dev & build performances.
+## セットアップ
 
-## Expanding the ESLint configuration
+```bash
+# 依存関係のインストール
+npm install
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# 開発サーバーの起動
+npm run dev
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# 型チェック + ビルド
+npm run build
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# プレビュー表示（ビルド確認用）
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ディレクトリ構成
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+├─ public/
+│  └─ vite.svg               # デフォルトのFavicon（必要に応じて差し替え）
+├─ src/
+│  ├─ components/            # 主要セクションとUIコンポーネント
+│  │  ├─ hero.tsx            # HEROセクション
+│  │  ├─ about.tsx           # 自己紹介
+│  │  ├─ experience.tsx      # 職歴
+│  │  ├─ skills.tsx          # 技術スタック
+│  │  ├─ projects.tsx        # プロジェクト
+│  │  ├─ contact.tsx         # お問い合わせ
+│  │  ├─ social-links.tsx    # SNSリンク
+│  │  └─ ui/                 # shadcn/uiベースのUIコンポーネント
+│  ├─ lib/utils.ts           # クラス結合ヘルパー `cn`
+│  ├─ index.css              # Tailwind設定とテーマトークン
+│  ├─ App.tsx                # ページ全体の構成
+│  └─ main.tsx               # エントリーポイント
+├─ package.json              # 依存関係・スクリプト
+├─ vite.config.ts            # Vite設定（`@`エイリアスなど）
+└─ tsconfig.*                # TypeScript設定
+```
+
+## カスタマイズのポイント
+
+- **テーマ／配色**: `src/index.css`内のCSS変数を調整することで、サイト全体のトーンを変更可能です。
+- **セクション内容**: 各セクションは`src/components/`配下に分割されているため、文言やリンクを直接編集できます。
+- **コンポーネント追加**: shadcn/uiから必要なパーツを取り込みたい場合は、`src/components/ui/`にコンポーネントを追加し、`Button`等と同様に利用してください。
+
+## デプロイ
+
+Vite標準のビルド成果物（`dist`）を静的ホスティング（Vercel、Netlify、GitHub Pagesなど）に配置することでデプロイできます。ビルドコマンドは以下です。
+
+```bash
+npm run build
+```
+
+必要に応じて環境変数や計測ツールを追加し、本番環境向けに調整してください。
+
+## ライセンス
+
+本リポジトリのコードは、特に指定がない限りMITライセンスで提供されています。利用時はライセンス条件に従ってください。
