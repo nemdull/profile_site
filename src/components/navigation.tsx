@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Github, Linkedin, Mail, Menu, X } from 'lucide-react'
+import { Github, Linkedin, Menu, X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
 const navItems = [
   { name: 'Experience', href: '#experience' },
   { name: 'Skills', href: '#skills' },
+  { name: 'Certifications', href: '#certifications' },
   { name: 'Community', href: '#community' },
   { name: 'Projects', href: '#projects' },
   { name: 'Contact', href: '#contact' },
@@ -14,7 +15,6 @@ const navItems = [
 const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/nemdull', icon: Github },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/nemdull/', icon: Linkedin },
-  { label: 'Mail', href: 'mailto:nemdull067@gmail.com', icon: Mail },
 ]
 
 export function Navigation() {

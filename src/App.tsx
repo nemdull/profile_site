@@ -1,9 +1,10 @@
 import { Contact } from '@/components/contact'
+import { CommunityShowcase } from '@/components/community'
+import { Certifications } from '@/components/certifications'
 import { Experience } from '@/components/experience'
 import { Hero } from '@/components/hero'
 import { Navigation } from '@/components/navigation'
 import { Projects } from '@/components/projects'
-import { CommunityShowcase } from '@/components/community'
 import { Skills } from '@/components/skills'
 import { SocialLinks } from '@/components/social-links'
 
@@ -16,6 +17,7 @@ function App() {
         <SocialLinks />
         <Experience />
         <Skills />
+        <Certifications />
         <CommunityShowcase />
         <Projects />
         <Contact />
