@@ -10,6 +10,7 @@ const social = [
   { label: 'Zenn', href: 'https://zenn.dev/nemdull', icon: ExternalLink },
   { label: 'Qiita', href: 'https://qiita.com/nemdull', icon: ExternalLink },
   { label: 'Findy Skills', href: 'https://findy-code.io/skills-share/6l9E_223HPNgn', icon: ExternalLink },
+  { label: 'Speaker Deck', href: 'https://speakerdeck.com/nemdull', icon: ExternalLink },
   { label: 'Profile Page (old)', href: 'https://sites.google.com/view/nemdull/', icon: ExternalLink },
 ]
 
