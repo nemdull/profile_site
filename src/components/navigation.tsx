@@ -12,9 +12,9 @@ const navItems = [
 ]
 
 const socialLinks = [
-  { label: 'GitHub', href: '#', icon: Github },
-  { label: 'LinkedIn', href: '#', icon: Linkedin },
-  { label: 'Mail', href: '#', icon: Mail },
+  { label: 'GitHub', href: 'https://github.com/nemdull', icon: Github },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/nemdull/', icon: Linkedin },
+  { label: 'Mail', href: 'mailto:nemdull067@gmail.com', icon: Mail },
 ]
 
 export function Navigation() {
@@ -43,14 +43,22 @@ export function Navigation() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          {socialLinks.map(({ label, href, icon: Icon }) => (
-            <Button key={label} variant="ghost" size="sm" asChild>
-              <a href={href} className="flex items-center gap-2">
-                <Icon className="h-4 w-4" />
-                {label}
-              </a>
-            </Button>
-          ))}
+          {socialLinks.map(({ label, href, icon: Icon }) => {
+            const isExternal = href.startsWith('http')
+            return (
+              <Button key={label} variant="ghost" size="sm" asChild>
+                <a
+                  href={href}
+                  target={isExternal ? '_blank' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
+                  className="flex items-center gap-2"
+                >
+                  <Icon className="h-4 w-4" />
+                  {label}
+                </a>
+              </Button>
+            )
+          })}
         </div>
 
         <div className="md:hidden">
@@ -74,14 +82,22 @@ export function Navigation() {
               </a>
             ))}
             <div className="flex flex-wrap gap-2 pt-2">
-              {socialLinks.map(({ label, href, icon: Icon }) => (
-                <Button key={label} variant="outline" size="sm" asChild>
-                  <a href={href} className="flex items-center gap-2">
-                    <Icon className="h-4 w-4" />
-                    {label}
-                  </a>
-                </Button>
-              ))}
+              {socialLinks.map(({ label, href, icon: Icon }) => {
+                const isExternal = href.startsWith('http')
+                return (
+                  <Button key={label} variant="outline" size="sm" asChild>
+                    <a
+                      href={href}
+                      target={isExternal ? '_blank' : undefined}
+                      rel={isExternal ? 'noopener noreferrer' : undefined}
+                      className="flex items-center gap-2"
+                    >
+                      <Icon className="h-4 w-4" />
+                      {label}
+                    </a>
+                  </Button>
+                )
+              })}
             </div>
           </nav>
         </div>

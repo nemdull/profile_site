@@ -1,12 +1,16 @@
-import { Github, Linkedin, Rss } from 'lucide-react'
+import { ExternalLink, Github, Instagram, Linkedin } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const social = [
-  { label: 'GitHub', href: '#', icon: Github },
-  { label: 'LinkedIn', href: '#', icon: Linkedin },
-  { label: 'Blog', href: '#', icon: Rss },
+  { label: 'GitHub', href: 'https://github.com/nemdull', icon: Github },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/nemdull/', icon: Linkedin },
+  { label: 'Instagram', href: 'https://instagram.com/nemdull', icon: Instagram },
+  { label: 'Zenn', href: 'https://zenn.dev/nemdull', icon: ExternalLink },
+  { label: 'Qiita', href: 'https://qiita.com/nemdull', icon: ExternalLink },
+  { label: 'Findy Skills', href: 'https://findy-code.io/skills-share/6l9E_223HPNgn', icon: ExternalLink },
+  { label: 'Profile Page (old)', href: 'https://sites.google.com/view/nemdull/', icon: ExternalLink },
 ]
 
 export function SocialLinks() {
@@ -14,18 +18,19 @@ export function SocialLinks() {
     <section className="border-t bg-muted/10 py-12">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <Card className="border-border/60 bg-card/80">
-          <CardHeader className="text-center">
-            <CardTitle>Stay connected</CardTitle>
+          <CardHeader className="space-y-2.5 text-center">
+            <span className="text-sm font-mono uppercase tracking-[0.4em] text-primary">Social</span>
+            <CardTitle className="text-3xl font-semibold">Connect with NEMDULL</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Replace placeholder URLs with the actual social destinations you want to highlight.
+              最新の活動やプロジェクトは各種SNSで発信しています。気軽にフォロー・ご連絡ください。
             </p>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
               {social.map(({ label, href, icon: Icon }) => (
-                <Button key={label} variant="outline" asChild className="h-12" disabled>
-                  <a href={href} className="flex items-center justify-center gap-2">
-                    <Icon className="h-4 w-4" />
+                <Button key={label} variant="outline" asChild className="h-14">
+                  <a href={href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                    <Icon className="h-5 w-5" />
                     {label}
                   </a>
                 </Button>

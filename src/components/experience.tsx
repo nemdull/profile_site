@@ -5,15 +5,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 const experiences = [
   {
-    period: '2024/04 – Present',
-    title: 'Software Engineer',
-    company: 'Enterprise SIer',
-    summary: 'Owning delivery of core business systems with a focus on quality and automation.',
+    period: '2024/04 — 現在',
+    title: 'Software Engineer（金融系SIer）',
+    company: '金融系SIer',
+    summary:
+      '不動産EC向け管理画面（Oracle APEX／PL/SQL／React／AWS）の開発・保守を担当。フォーム回帰のE2E自動化（Playwright）導入、Jestでの単体テスト整備により品質向上を実現。Slack×Jira運用ルールの標準化、障害報告テンプレート整備を通じて開発効率を向上。',
     achievements: [
-      'Introduced regression testing automation to reduce manual verification.',
-      'Standardised review checklists to maintain consistent release quality.',
+      '本番障害2件の恒久対策後、以降の障害ゼロ運用を継続',
+      '回帰自動化で手動検証負荷を削減、検証の再現性を向上',
+      '生成AIの活用でログ調査・テスト観点出しを効率化（調査時間短縮）',
+      'Qiita等での外部発信（累計6,000PV）と社内共有で、知見をチーム横断に展開',
     ],
-    technologies: ['Oracle APEX', 'TypeScript', 'React', 'AWS', 'Playwright'],
+    technologies: ['Oracle APEX', 'PL/SQL', 'React', 'TypeScript', 'AWS', 'Playwright', 'Jest'],
   },
 ]
 
@@ -27,7 +30,7 @@ export function Experience() {
           </div>
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.4em] text-primary">Experience</p>
-            <h2 className="text-3xl font-semibold sm:text-4xl">Recent work history</h2>
+            <h2 className="text-3xl font-semibold sm:text-4xl">職歴</h2>
           </div>
         </div>
 
@@ -40,7 +43,7 @@ export function Experience() {
                 <p className="text-sm text-muted-foreground">{item.period}</p>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">{item.summary}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {item.achievements.map((achievement) => (
                     <li key={achievement} className="flex gap-2">

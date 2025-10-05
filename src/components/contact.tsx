@@ -1,6 +1,5 @@
 import { Mail, MapPin } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export function Contact() {
@@ -9,16 +8,16 @@ export function Contact() {
       <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
         <div className="space-y-4 text-center">
           <p className="font-mono text-xs uppercase tracking-[0.4em] text-primary">Contact</p>
-          <h2 className="text-3xl font-semibold sm:text-4xl">Let&apos;s collaborate</h2>
+          <h2 className="text-3xl font-semibold sm:text-4xl">お問い合わせ</h2>
           <p className="text-base text-muted-foreground">
-            Use the placeholders below for future contact channels. Buttons remain disabled until destinations exist.
+            新しいプロジェクトや情報交換のご相談は、各種SNSまたはメールから気軽にご連絡ください。
           </p>
         </div>
 
         <Card className="border-border/60 bg-card/80">
           <CardHeader>
-            <CardTitle>Preferred channels</CardTitle>
-            <CardDescription>Update addresses and CTA links when copy is ready.</CardDescription>
+            <CardTitle>連絡先情報</CardTitle>
+            <CardDescription>ご都合の良いチャネルからご連絡ください。</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center gap-4">
@@ -27,7 +26,9 @@ export function Contact() {
               </div>
               <div className="space-y-1">
                 <p className="text-sm font-medium">Email</p>
-                <p className="text-sm text-muted-foreground">nemdull067@gmail.com</p>
+                <a href="mailto:nemdull067@gmail.com" className="text-sm text-primary transition hover:underline">
+                  nemdull067@gmail.com
+                </a>
               </div>
             </div>
 
@@ -37,17 +38,8 @@ export function Contact() {
               </div>
               <div className="space-y-1">
                 <p className="text-sm font-medium">Location</p>
-                <p className="text-sm text-muted-foreground">Yokohama, Japan</p>
+                <p className="text-sm text-muted-foreground">横浜, 日本</p>
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              <Button variant="default" disabled>
-                Email me
-              </Button>
-              <Button variant="outline" disabled>
-                Schedule a call
-              </Button>
             </div>
           </CardContent>
         </Card>
