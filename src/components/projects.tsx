@@ -41,7 +41,7 @@ const projects: Project[] = [
       'Ruby on Rails 6／Docker Compose／Puma を使用した Rails×Docker の開発環境構築・運用検証とCIの試行。ローカルRubyとコンテナRubyのバージョン差異に起因する依存解決を再現・解消。',
     technologies: ['Ruby on Rails 6', 'Docker Compose', 'Puma'],
     githubUrl: 'https://github.com/nemdull/sakujiru-app',
-    liveUrl: '#',
+    liveUrl: 'https://sakujiru-web.onrender.com/',
     featured: false,
   },
   {
