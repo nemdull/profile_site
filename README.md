@@ -1,28 +1,22 @@
 # nemdull engineer profile site
 
-このリポジトリは、NemDull（ねむだる）のエンジニアプロフィールサイトを構築するための Vite + React + TypeScript プロジェクトです。shadcn/ui のコンポーネントをベースに、ポートフォリオ向けのセクションを構成しています。最新の公開版は [https://www.nemdull.com/](https://www.nemdull.com/) から閲覧できます。
+NemDull（ねむだる）のエンジニアプロフィールサイトを構築するための Vite + React + TypeScript プロジェクトです。shadcn/ui を基盤に Tailwind CSS でテーマを調整し、Atomic Design に沿ったコンポーネント構成へリファクタリングしています。最新の公開版は [https://www.nemdull.com/](https://www.nemdull.com/) から閲覧できます。
 
 ## プロジェクト概要
 
 - **フロントエンド基盤**: Vite + React 19 + TypeScript
-- **スタイリング**: Tailwind CSS（shadcn/ui 互換のトークン構成）
-- **UI コンポーネント**: `Button` / `Badge` / `Card` / `Progress` など shadcn/ui 由来のコンポーネント
+- **スタイリング**: Tailwind CSS（shadcn/ui コンポーネントと tailwind-merge を活用）
+- **UI コンポーネント**: `Button` / `Badge` / `Card` / `Progress` などの Atom
+- **設計指針**: Atomic Design（Atoms → Molecules → Organisms → Templates → Pages）
 - **アイコン**: [lucide-react](https://lucide.dev)
-- **主要セクション**:
-  - `Navigation` : ページヘッダーとグローバルナビゲーション
-  - `Hero` : ファーストビュー
-  - `SocialLinks` : SNS / 外部リンクまとめ
-  - `About` : 自己紹介
-  - `Experience` : 職務経歴
-  - `Skills` : スキルスタック
-  - `Certifications` : 資格・認定一覧（職務経歴書準拠）
-  - `Community` : コミュニティ / ハッカソン参加歴
-  - `Projects` : 業務・個人開発の実績
-  - `Contact` : 連絡先フォーム
+- **主要セクション**（Organisms 配下）:
+  - `Navigation` / `Hero` / `SocialLinks`
+  - `Experience` / `Skills` / `Certifications`
+  - `CommunityShowcase` / `Projects` / `Contact`
 
 ## 必要環境
 
-- Node.js 20 以上
+- Node.js 20.19 以上 もしくは 22.12 以上  
 - npm（または互換パッケージマネージャー）
 
 ## セットアップ
@@ -41,26 +35,21 @@ npm run build
 npm run preview
 ```
 
-## ディレクトリ構成
+## ディレクトリ構成（抜粋）
 
 ```
-├─ public/
-│  └─ vite.svg                # favicon など静的アセット
 ├─ src/
-│  ├─ components/             # 各セクションおよび UI コンポーネント
-│  │  ├─ hero.tsx             # Hero セクション
-│  │  ├─ about.tsx            # 自己紹介
-│  │  ├─ experience.tsx       # 職務経歴
-│  │  ├─ skills.tsx           # スキルスタック
-│  │  ├─ certifications.tsx   # 資格セクション
-│  │  ├─ community.tsx        # コミュニティ・ハッカソン
-│  │  ├─ projects.tsx         # プロジェクト
-│  │  ├─ contact.tsx          # お問い合わせ
-│  │  ├─ social-links.tsx     # SNS リンク
-│  │  └─ ui/                  # shadcn/ui ベースの UI コンポーネント
-│  ├─ lib/utils.ts            # クラス結合ユーティリティ `cn`
+│  ├─ assets/
+│  │  └─ images/              # プロフィール写真や背景画像
+│  ├─ components/
+│  │  ├─ atoms/               # Shadcn ベースの UI パーツ（Button, Card, …）
+│  │  ├─ molecules/           # 将来追加予定の小さな複合コンポーネント
+│  │  ├─ organisms/           # 各セクション（Navigation, Hero, etc.）
+│  │  └─ templates/           # ページレイアウト（MainLayout など）
+│  ├─ lib/utils.ts            # `cn`（className 結合ユーティリティ）
+│  ├─ pages/
+│  │  └─ home/HomePage.tsx    # トップページの構成
 │  ├─ index.css               # テーマトークンと Tailwind 設定
-│  ├─ App.tsx                 # ページ構成ルート
 │  └─ main.tsx                # エントリーポイント
 ├─ package.json               # 依存関係と npm scripts
 ├─ vite.config.ts             # Vite 設定（`@` エイリアス含む）
@@ -69,16 +58,19 @@ npm run preview
 
 ## 開発 Tips
 
-- **テーマ変更**: `src/index.css` の CSS 変数を編集すると配色やタイポグラフィを一括調整できます。
-- **セクション編集**: 文言・リンクは `src/components/` 以下の各ファイルを直接更新します。
-- **UI 拡張**: 追加で shadcn/ui から取り込みたい場合は `src/components/ui/` にコンポーネントを追加し、`Button` などと同様に利用してください。
+- **Atomic Design の層構造**:  
+  - Atoms は汎用 UI パーツ、Organisms はセクション単位の UI を収容。  
+  - Template でレイアウト（ヘッダー等）をまとめ、Pages から呼び出します。  
+  - Molecules は必要になったタイミングで配置してください。
+- **テーマ変更**: `src/index.css` の CSS 変数を編集すると配色・タイポグラフィを一括調整できます。
+- **文言・リンク更新**: セクション単位のテキストは `src/components/organisms/` 内の各ファイルで管理しています。
+- **UI 拡張**: shadcn/ui からの追加分は `src/components/atoms/` に配置し、`cn` を使って Tailwind クラスを整理すると保守しやすくなります。
 - **Lint / Format**: `npm run lint` で ESLint、`npm run build` で型チェック込みのビルドを実行できます。
 
 ## デプロイ
 
-`npm run build` で生成される `dist/` ディレクトリを静的ホスティング（Vercel / Netlify / GitHub Pages など）に配置するだけでデプロイできます。必要に応じてカスタムドメインや計測タグを設定してください。
+`npm run build` で生成される `dist/` ディレクトリを静的ホスティリング（Vercel / Netlify / GitHub Pages など）に配置するだけでデプロイできます。必要に応じてカスタムドメインや計測タグを設定してください。
 
 ## ライセンス
 
 特に記載がない限り、本リポジトリのコードは MIT ライセンスで提供されています。利用の際はライセンス条件に従ってください。
-

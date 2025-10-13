@@ -1,7 +1,7 @@
 import { ExternalLink, Github, Instagram, Linkedin } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/atoms/Button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/Card'
 
 const social = [
   { label: 'GitHub', href: 'https://github.com/nemdull', icon: Github },

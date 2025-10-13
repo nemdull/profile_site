@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/atoms/Badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/Card'
 
 type SkillIconSource =
   | { kind: 'simpleicon'; slug: string; color?: string }

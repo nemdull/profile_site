@@ -1,6 +1,6 @@
 import { Award } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/components/atoms/Badge'
 
 type Certification = {
   name: string
