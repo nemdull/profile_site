@@ -47,8 +47,8 @@ const projects: Project[] = [
   {
     title: 'Go TODO API（個人）',
     description:
-      'Go／Docker Compose／MySQL を使用した学習用REST API。ハンドラ／リポジトリ分離、Swagger導入検討、Linter/Formatter設定、MakefileでのDX改善。',
-    technologies: ['Go', 'Docker Compose', 'MySQL'],
+      'SF 作品に登場するテクノロジーの危険度や SF 度合いを数値化し、「SF メーター」として表示するためのモノレポジトリです。Go 製のバックエンド API（backend/）と、React + TypeScript + Vite で構築するフロントエンド（frontend/）の 2 つのサブプロジェクトを格納しています。',
+    technologies: ['Go', 'React', 'TypeScript', 'Vite'],
     githubUrl: 'https://github.com/nemdull/sf-meter',
     liveUrl: '#',
     note: 'sf-meter リポジトリ',

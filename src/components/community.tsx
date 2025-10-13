@@ -19,6 +19,10 @@ const hackathons = [
     year: '2022',
   },
   {
+    name: 'マネーフォワード エンジニアインターンシップ',
+    year: '2022',
+  },
+  {
     name: 'IBM IT Specialist',
     year: '2022',
   },
