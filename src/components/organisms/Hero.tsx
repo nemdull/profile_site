@@ -1,7 +1,7 @@
 import { Cpu, Terminal, Zap } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import ProfileImage from '@/components/img/Designer.jpeg'
+import { Button } from '@/components/atoms/Button'
+import ProfileImage from '@/assets/images/Designer.jpeg'
 
 export function Hero() {
   return (

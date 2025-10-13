@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Github, Linkedin, Menu, X } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/atoms/Button'
 
 const navItems = [
   { name: 'Experience', href: '#experience' },

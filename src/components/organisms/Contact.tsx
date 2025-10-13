@@ -1,6 +1,6 @@
 import { Mail, MapPin } from 'lucide-react'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/atoms/Card'
 
 export function Contact() {
   return (
