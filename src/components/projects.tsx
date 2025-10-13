@@ -49,9 +49,9 @@ const projects: Project[] = [
     description:
       'Go／Docker Compose／MySQL を使用した学習用REST API。ハンドラ／リポジトリ分離、Swagger導入検討、Linter/Formatter設定、MakefileでのDX改善。',
     technologies: ['Go', 'Docker Compose', 'MySQL'],
-    githubUrl: 'https://github.com/nemdull',
+    githubUrl: 'https://github.com/nemdull/sf-meter',
     liveUrl: '#',
-    note: 'リポジトリ一覧参照',
+    note: 'sf-meter リポジトリ',
     featured: false,
   },
 ]
