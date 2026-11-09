@@ -46,36 +46,6 @@ const projects: Project[] = [
     featured: false,
   },
   {
-    title: 'MonaBite（モバイルアプリ｜Shipaton 2026）',
-    description:
-      'SNSでバズった飲食店を、共有シートから1タップで自分の地図にピン留めするアプリ。RevenueCat 主催ハッカソン Shipaton 2026 向けに Expo（React Native／TypeScript）で iOS／Android 両対応、RevenueCat SDK でアプリ内課金を実装。',
-    technologies: ['Expo', 'React Native', 'TypeScript', 'RevenueCat'],
-    githubUrl: '#',
-    liveUrl: '#',
-    note: 'ハッカソン提出作（リポジトリは非公開）',
-    featured: false,
-  },
-  {
-    title: 'ニンメモ（モバイルアプリ｜人間メモ帳）',
-    description:
-      '人を覚えておくためのローカル保存アプリ。2列グリッドの人物カード、ハートをスワイプして好感度を調整するUI、テーマ切替を実装。型チェック・ユニットテスト・Web E2E・依存監査を通した上で App Store 申請資料まで整備。',
-    technologies: ['Expo', 'React Native', 'TypeScript', 'Playwright'],
-    githubUrl: '#',
-    liveUrl: '#',
-    note: 'リリース準備中（リポジトリは非公開）',
-    featured: false,
-  },
-  {
-    title: 'ジンバフ（モバイルアプリ｜参拝・徳行の記録）',
-    description:
-      '参拝・御朱印・おみくじ・徳行を記録し、スキルの成長と「加護（24時間バフ）」を可視化する和風アプリ。OpenStreetMap／Wikipedia の候補補完、Supabase による認証・共有ランキング、CSVエクスポートを実装。',
-    technologies: ['Expo', 'React Native', 'Supabase'],
-    githubUrl: '#',
-    liveUrl: '#',
-    note: '開発中（リポジトリは非公開）',
-    featured: false,
-  },
-  {
     title: 'sf-meter（Web｜SF度メーター）',
     description:
       'SF 作品に登場するテクノロジーの危険度や SF 度合いを数値化して「SF メーター」として表示する Web アプリ。Go 製のバックエンド API と、React + TypeScript + Vite のフロントエンドで構成。',
