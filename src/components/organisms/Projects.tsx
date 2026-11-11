@@ -16,6 +16,26 @@ type Project = {
 
 const projects: Project[] = [
   {
+    title: '会員向けWebシステムの保守・エンハンス（業務｜PL）',
+    description:
+      '2026年度よりプロジェクトリーダーとして、要件整理・見積・顧客折衝・パートナー成果物レビューを担当。管理画面からバッチ・データ連携基盤まで保守範囲を広げ、顧客から直接依頼を受ける体制を構築。',
+    technologies: ['Oracle APEX', 'PL/SQL', 'React', 'AWS', 'Jira'],
+    githubUrl: '#',
+    liveUrl: '#',
+    note: '社内案件のため非公開',
+    featured: true,
+  },
+  {
+    title: '生成AIによるテスト自動化・設計書整備（業務）',
+    description:
+      'Playwright／Jest による回帰テスト自動化を土台に、生成AIを「誤らせない仕組みごと」業務に組み込む設計を推進。期待値の改変禁止・根拠必須・曖昧表現の自動検査などのガードレールを定義し、AI向け設計書の整備を主担当として実施。',
+    technologies: ['Playwright', 'Jest', 'TypeScript', 'Claude Code', 'LLM'],
+    githubUrl: '#',
+    liveUrl: '#',
+    note: '社内案件のため非公開',
+    featured: true,
+  },
+  {
     title: '不動産EC 管理画面（業務）',
     description:
       'Oracle APEX／PL/SQL／React／AWS を活用した大手不動産EC向け管理画面の開発・保守。バリデーション標準化、外部連結テスト推進により移行後の安定稼働に貢献。',
@@ -23,35 +43,24 @@ const projects: Project[] = [
     githubUrl: '#',
     liveUrl: '#',
     note: '社内案件のため非公開',
-    featured: true,
-  },
-  {
-    title: '業務管理画面（業務｜E2E自動化）',
-    description:
-      'APEX／PL/SQL／Playwright／Jest／AWS を使用したフォーム回帰の自動化パイプライン整備。手動検証の安定化と負荷削減を実現し、障害の根本原因特定と恒久対策を実装。',
-    technologies: ['Oracle APEX', 'PL/SQL', 'Playwright', 'Jest', 'AWS'],
-    githubUrl: '#',
-    liveUrl: '#',
-    note: '社内案件のため非公開',
-    featured: true,
-  },
-  {
-    title: 'sakujiru（個人アプリ｜Rails検証）',
-    description:
-      'Ruby on Rails 6／Docker Compose／Puma を使用した Rails×Docker の開発環境構築・運用検証とCIの試行。ローカルRubyとコンテナRubyのバージョン差異に起因する依存解決を再現・解消。',
-    technologies: ['Ruby on Rails 6', 'Docker Compose', 'Puma'],
-    githubUrl: 'https://github.com/nemdull/sakujiru-app',
-    liveUrl: 'https://sakujiru-web.onrender.com/',
     featured: false,
   },
   {
-    title: 'Go TODO API（個人）',
+    title: 'sf-meter（Web｜SF度メーター）',
     description:
-      'SF 作品に登場するテクノロジーの危険度や SF 度合いを数値化し、「SF メーター」として表示するためのモノレポジトリです。Go 製のバックエンド API（backend/）と、React + TypeScript + Vite で構築するフロントエンド（frontend/）の 2 つのサブプロジェクトを格納しています。',
+      'SF 作品に登場するテクノロジーの危険度や SF 度合いを数値化して「SF メーター」として表示する Web アプリ。Go 製のバックエンド API と、React + TypeScript + Vite のフロントエンドで構成。',
     technologies: ['Go', 'React', 'TypeScript', 'Vite'],
     githubUrl: 'https://github.com/nemdull/sf-meter',
     liveUrl: '#',
-    note: 'sf-meter リポジトリ',
+    featured: false,
+  },
+  {
+    title: 'sakujiru（Web｜作字クリエイター支援）',
+    description:
+      'Ruby on Rails 6／Docker Compose／Puma を使用した作画投稿プラットフォーム。Rails×Docker の開発環境構築・運用検証とCIの試行を行い、ローカルRubyとコンテナRubyのバージョン差異に起因する依存解決を再現・解消。',
+    technologies: ['Ruby on Rails 6', 'Docker Compose', 'Puma'],
+    githubUrl: 'https://github.com/nemdull/sakujiru-app',
+    liveUrl: 'https://sakujiru-web.onrender.com/',
     featured: false,
   },
 ]
@@ -141,8 +150,40 @@ export function Projects() {
             </Card>
             <Card className="border-border/60 bg-card/60 p-5">
               <div className="space-y-2.5">
-                <h4 className="text-lg font-semibold">社内共有会</h4>
-                <p className="text-sm text-muted-foreground">E2E自動化とレビュー観点の標準化ノウハウの社内展開</p>
+                <h4 className="text-lg font-semibold">Slack 匿名お悩み Bot（Findy ぷち改善ハッカソン）</h4>
+                <p className="text-sm text-muted-foreground">
+                  LLM × Slack × Playwright で、チームの心理的安全性を少しだけ上げる Bot を1日で実装。MVPの線引きとDBなし運用、権限の最小化を設計。
+                </p>
+                <div className="flex items-center gap-4">
+                  <Badge variant="secondary">LLM API</Badge>
+                  <Button variant="outline" size="sm" asChild>
+                    <a
+                      href="https://qiita.com/nemdull/items/a2d72e6a5d4e82161e00"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      記事
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </Card>
+            <Card className="border-border/60 bg-card/60 p-5">
+              <div className="space-y-2.5">
+                <h4 className="text-lg font-semibold">AWS 認定資格 参考書の共著</h4>
+                <p className="text-sm text-muted-foreground">
+                  AWS Solutions Architect Professional 対策書（改訂2版）の執筆チームに参加。章の執筆と Markdown → Word のビルド整備を担当。
+                </p>
+                <Badge variant="secondary">執筆中</Badge>
+              </div>
+            </Card>
+            <Card className="border-border/60 bg-card/60 p-5">
+              <div className="space-y-2.5">
+                <h4 className="text-lg font-semibold">社内AI勉強会の立ち上げ・登壇</h4>
+                <p className="text-sm text-muted-foreground">
+                  生成AIを業務に組み込む際のガードレール設計や、E2E自動化・レビュー観点の標準化ノウハウを社内勉強会で2回登壇して展開。
+                </p>
                 <Badge variant="secondary">知見横展開</Badge>
               </div>
             </Card>

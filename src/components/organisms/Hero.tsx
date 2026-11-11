@@ -34,8 +34,9 @@ export function Hero() {
               <h2 className="text-2xl font-mono text-muted-foreground sm:text-3xl">APPLICATION_ENGINEER.EXE</h2>
             </div>
             <p className="mx-auto max-w-3xl text-base text-muted-foreground sm:text-lg">
-              2024年に金融系SIerへ新卒入社。Oracle APEX／PL/SQLを中核に、React・TypeScript・AWSを横断しながら
-              品質と開発速度を両立させるアプリケーションエンジニアです。
+              2024年に金融系SIerへ新卒入社。3年目からは保守・エンハンス案件のプロジェクトリーダーとして要件整理から
+              リリースまでを担い、生成AIをテスト自動化と設計書整備に組み込む施策を推進。Oracle APEX／PL/SQLを中核に、
+              React・TypeScript・AWS・Expoを横断しながら、品質と開発速度を両立させるアプリケーションエンジニアです。
             </p>
           </div>
         </div>
