@@ -4,26 +4,15 @@
 // 見ていること
 //   1. 「できること」の各行に、根拠が 1 つ以上付いている
 //   2. リンクが https で、形が正しい
-//   3. リンク先が、下の一覧にあるサイトだけになっている
+//   3. リンク先が、src/content/allowed-hosts.json にあるサイトだけになっている
 //   4. 書体の字形セットに入っていない文字が無いか（これは警告だけ）
 import { existsSync, readFileSync } from 'node:fs'
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8')
 
-// リンクを張ってよいサイト。新しいサイトへ張るときは、ここに足してから
-const ALLOWED_HOSTS = [
-  'github.com',
-  'x.com',
-  'zenn.dev',
-  'qiita.com',
-  'speakerdeck.com',
-  'connpass.com',
-  'findy-code.io',
-  'instagram.com',
-  'www.nemdull.com',
-  'sakujiru-web.onrender.com',
-  'www.cyberagent.co.jp',
-]
+// リンクを張ってよいサイト。新しいサイトへ張るときは、src/content/allowed-hosts.json に足してから。
+// 同じ一覧を、ページを開いたときの点検（src/systems/preflight.ts）も見ている
+const ALLOWED_HOSTS = JSON.parse(read('../src/content/allowed-hosts.json'))
 
 const profile = JSON.parse(read('../src/content/profile.json'))
 const errors = []
@@ -39,7 +28,7 @@ const walk = (value, path) => {
 walk(profile, 'profile')
 
 // 1. 根拠
-profile.claims.forEach((item, index) => {
+profile.claims.items.forEach((item, index) => {
   const evidence = Array.isArray(item.evidence) ? item.evidence : []
   if (evidence.length === 0) errors.push(`claims[${index}]「${item.claim}」に根拠がありません`)
   evidence.forEach((entry, at) => {
@@ -75,7 +64,7 @@ if (existsSync(new URL(charsetPath, import.meta.url))) {
   if (missing.size > 0) {
     warnings.push(
       `書体のファイルに入っていない文字があります: ${[...missing].join(' ')}\n` +
-        '  表示は端末の書体に切り替わるだけで、壊れません。そろえるには: python3 scripts/subset-fonts.py',
+        '  表示は端末の書体に切り替わるだけで、壊れません。そろえるには: npm run fonts',
     )
   }
 } else {
@@ -88,4 +77,4 @@ if (errors.length > 0) {
   console.error(`\n内容の点検で ${errors.length} 件の問題が見つかりました。src/content/profile.json を直してください。`)
   process.exit(1)
 }
-console.log(`内容の点検: 問題なし（主張 ${profile.claims.length} 件、文字列 ${strings.length} 件を確認）`)
+console.log(`内容の点検: 問題なし（主張 ${profile.claims.items.length} 件、文字列 ${strings.length} 件を確認）`)

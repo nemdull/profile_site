@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>nemdull — 面倒なことは、仕組みに任せる。</title>
+    <title>nemdull｜ねむい。だるい。だから自動化する。</title>
     <meta
       name="description"
-      content="金融系 SIer で会員向け Web システムのプロジェクトリーダーをしているアプリケーションエンジニア、nemdull（ねむだる）のポートフォリオ。テスト自動化と、生成 AI を誤らせないための仕組みづくり。"
+      content="nemdull（ねむだる）のポートフォリオ。金融系 SIer で会員向け Web システムのプロジェクトリーダーをしているアプリケーションエンジニアです。テストの自動化と、生成 AI に期待値を書き換えさせない仕組みづくりをしています。"
     />
     <link rel="canonical" href="https://www.nemdull.com/" />
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#f7f9fb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0e151d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#06112a" />
+    <meta name="color-scheme" content="dark" />
     <meta property="og:type" content="profile" />
     <meta property="og:site_name" content="nemdull" />
-    <meta property="og:title" content="nemdull — 面倒なことは、仕組みに任せる。" />
+    <meta property="og:title" content="nemdull｜ねむい。だるい。だから自動化する。" />
     <meta
       property="og:description"
-      content="テスト自動化と、生成 AI を誤らせないための仕組みづくり。金融系 SIer のアプリケーションエンジニア、nemdull のポートフォリオ。"
+      content="テストの自動化と、生成 AI に期待値を書き換えさせない仕組みづくり。金融系 SIer のアプリケーションエンジニア、nemdull のポートフォリオ。"
     />
     <meta property="og:url" content="https://www.nemdull.com/" />
     <meta property="og:image" content="https://www.nemdull.com/og.png" />
@@ -26,16 +26,14 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@nemdull" />
-    <script>
-      // 前に選んだ表示（明るい／暗い）を、描画の前に当てる
-      try {
-        var saved = localStorage.getItem('theme')
-        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved
-      } catch (e) {}
-    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="margin: 2rem; color: #eef5ff; font-family: sans-serif">
+        nemdull（ねむだる）のポートフォリオです。表示には JavaScript が必要です。GitHub: https://github.com/nemdull
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
