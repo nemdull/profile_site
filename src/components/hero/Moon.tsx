@@ -53,7 +53,7 @@ export function Moon() {
             className="sat"
             style={{ '--a': `${(360 / satellites.length) * index - 35}deg` } as CSSProperties}
           >
-            <ExternalLink href={link.url} className="sat-link">
+            <ExternalLink href={link.url} className="sat-link" me={link.state !== 'stranger'}>
               <span data-state={link.state}>{link.label}</span>
             </ExternalLink>
           </li>

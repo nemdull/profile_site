@@ -53,7 +53,9 @@ export function Contact() {
       <ul className="elsewhere">
         {links.map((link) => (
           <li key={link.url}>
-            <ExternalLink href={link.url}>{link.label}</ExternalLink>
+            <ExternalLink href={link.url} me>
+              {link.label}
+            </ExternalLink>
           </li>
         ))}
       </ul>

@@ -29,6 +29,8 @@ Node.js は 20.19 以上、または 22.12 以上。
 
 載せる内容は `src/content/profile.json` の 1 か所にまとめてあります。文言・リンク・経歴・資格は、ここだけ直せば画面に出ます。
 
+`links`（GitHub・X・Zenn・Qiita など、自分のほかのページ）は、画面のリンクになるだけでなく、ビルドのときに検索エンジン向けの情報（schema.org の Person の `sameAs`）としても埋め込まれます。`robots.txt` と `sitemap.xml` も、同じ JSON から作っています（`vite.config.ts`）。
+
 新しいサイトへリンクを張るときは、先に `src/content/allowed-hosts.json` に足します。ビルド前の点検と、ページを開いたときの点検の両方が、この一覧を見ています。
 
 ## 点検の中身

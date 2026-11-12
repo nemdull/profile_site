@@ -54,6 +54,27 @@ test.describe('開いたとき', () => {
     }
   })
 
+  test('ほかのサービスの自分のページを、検索エンジンにも伝えている', async ({ page, request }) => {
+    await page.goto('/')
+
+    // schema.org の Person。sameAs に、同じ人の別のページが並ぶ
+    const person = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}')
+    expect(person['@type']).toBe('Person')
+    expect(person.sameAs).toEqual(expect.arrayContaining(['https://github.com/nemdull', 'https://x.com/nemdull', 'https://zenn.dev/nemdull', 'https://qiita.com/nemdull']))
+    for (const url of person.sameAs as string[]) {
+      expect(allowedHosts, url).toContain(new URL(url).hostname)
+    }
+
+    // 画面のリンクにも、「これは自分のページ」という印（rel="me"）が付いている
+    await expect(page.locator('a[rel~="me"][href="https://github.com/nemdull"]').first()).toBeVisible()
+    expect(await page.locator('a[rel~="me"]').count()).toBeGreaterThanOrEqual(8)
+
+    const robots = await request.get('/robots.txt')
+    expect(await robots.text()).toContain('Sitemap: https://www.nemdull.com/sitemap.xml')
+    const sitemap = await request.get('/sitemap.xml')
+    expect(await sitemap.text()).toContain('<loc>https://www.nemdull.com/</loc>')
+  })
+
   test('キーボードの最初の Tab で「本文へ移動」に行ける', async ({ page }) => {
     await page.goto('/')
     await page.keyboard.press('Tab')
