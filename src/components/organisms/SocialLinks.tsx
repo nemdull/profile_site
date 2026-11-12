@@ -1,11 +1,10 @@
-import { ExternalLink, Github, Instagram, Linkedin, Twitter } from 'lucide-react'
+import { ExternalLink, Github, Instagram, Twitter } from 'lucide-react'
 
 import { Button } from '@/components/atoms/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/Card'
 
 const social = [
   { label: 'GitHub', href: 'https://github.com/nemdull', icon: Github },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/nemdull/', icon: Linkedin },
   { label: 'X', href: 'https://x.com/nemdull', icon: Twitter },
   { label: 'Instagram', href: 'https://instagram.com/nemdull', icon: Instagram },
   { label: 'Zenn', href: 'https://zenn.dev/nemdull', icon: ExternalLink },

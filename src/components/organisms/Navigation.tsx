@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Github, Linkedin, Menu, X, Twitter } from 'lucide-react'
+import { Github, Menu, X, Twitter } from 'lucide-react'
 
 import { Button } from '@/components/atoms/Button'
 
@@ -14,7 +14,6 @@ const navItems = [
 
 const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/nemdull', icon: Github },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/nemdull/', icon: Linkedin },
   { label: 'X', href: 'https://x.com/nemdull', icon: Twitter },
 ]
 
