@@ -96,6 +96,11 @@
           {
             "kind": "業務",
             "label": "管理画面の開発に Playwright と Jest を入れました"
+          },
+          {
+            "kind": "コード",
+            "label": "このサイトの画面のテスト（Playwright）",
+            "url": "https://github.com/nemdull/profile_site/blob/main/e2e/portfolio.spec.ts"
           }
         ]
       },
@@ -346,12 +351,14 @@
         "id": "site",
         "title": "このサイト",
         "lead": "React 19 と Vite、Tailwind CSS で作りました。アニメーションのライブラリは入れずに、CSS と Canvas で動かしています。",
-        "detail": "載せる内容は 1 つの JSON にまとめてあって、根拠のない主張やリンクの不備が混ざっていないかを、ビルドの前と、ページを開いたときの 2 回点検しています。",
+        "detail": "載せる内容は 1 つの JSON にまとめてあって、根拠のない主張やリンクの不備が混ざっていないかを、ビルドの前と、ページを開いたときの 2 回点検しています。隕石をぶつけて、見つけて、直すところまでは、Playwright のテストでも毎回確かめています。",
         "tech": [
           "React",
           "TypeScript",
           "Vite",
-          "Tailwind CSS"
+          "Tailwind CSS",
+          "Playwright",
+          "GitHub Actions"
         ],
         "links": [
           {
