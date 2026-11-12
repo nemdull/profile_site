@@ -1,17 +1,11 @@
-import { Linkedin, MessageCircle } from 'lucide-react'
+import { MessageCircle } from 'lucide-react'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/atoms/Card'
 
 const channels = [
   {
-    label: 'LinkedIn',
-    description: '仕事のご相談・採用に関するご連絡はこちらが確実です',
-    href: 'https://www.linkedin.com/in/nemdull/',
-    icon: Linkedin,
-  },
-  {
     label: 'X（DM）',
-    description: '技術の話題や情報交換はお気軽に',
+    description: '技術の話題や情報交換、仕事のご相談はこちらへ',
     href: 'https://x.com/nemdull',
     icon: MessageCircle,
   },
