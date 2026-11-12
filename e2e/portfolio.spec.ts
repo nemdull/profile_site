@@ -1,6 +1,10 @@
 import { readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 
 import { expect, test, type Page } from '@playwright/test'
+
+// 読みやすさの自動チェック（axe）の本体。ページに読み込ませて使う
+const axePath = createRequire(import.meta.url).resolve('axe-core/axe.min.js')
 
 const allowedHosts: string[] = JSON.parse(readFileSync(new URL('../src/content/allowed-hosts.json', import.meta.url), 'utf8'))
 
@@ -54,6 +58,31 @@ test.describe('開いたとき', () => {
     await page.goto('/')
     await page.keyboard.press('Tab')
     await expect(page.getByRole('link', { name: '本文へ移動' })).toBeFocused()
+  })
+})
+
+test.describe('読みやすさ', () => {
+  test('自動チェック（axe）で、問題が見つからない', async ({ page }) => {
+    await page.goto('/')
+    await checksFinished(page)
+    // 画面に入ったときに出てくる部分も調べたいので、いちど下まで送っておく
+    const height = await page.evaluate(() => document.documentElement.scrollHeight)
+    for (let y = 0; y < height; y += 600) {
+      await page.evaluate((top) => window.scrollTo(0, top), y)
+      await page.waitForTimeout(100)
+    }
+    await page.waitForTimeout(1500)
+
+    await page.addScriptTag({ path: axePath })
+    const violations = await page.evaluate(async () => {
+      const axe = (window as unknown as { axe: { run: (root: Document, options: object) => Promise<{ violations: { id: string; help: string; nodes: { target: string[] }[] }[] }> } }).axe
+      const result = await axe.run(document, {
+        runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'] },
+      })
+      return result.violations.map((violation) => `${violation.id}: ${violation.help} → ${violation.nodes.map((node) => node.target.join(' ')).join(', ')}`)
+    })
+
+    expect(violations).toEqual([])
   })
 })
 
