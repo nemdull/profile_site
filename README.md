@@ -20,6 +20,7 @@ npm run check    # 内容の点検だけ
 npm run build    # 内容の点検 → 型チェック → ビルド
 npm run preview  # ビルド結果の確認
 npm run lint
+npm run test:e2e # 画面を実際に開いて確かめるテスト（先に npm run build）
 ```
 
 Node.js は 20.19 以上、または 22.12 以上。
@@ -44,6 +45,26 @@ Node.js は 20.19 以上、または 22.12 以上。
 | 書体のファイルに入っていない文字が無いか | 警告 | — |
 
 ページを開いたときの点検は `src/systems/preflight.ts` にあります。
+
+## テスト
+
+`e2e/portfolio.spec.ts` が、Playwright で画面を実際に開いて確かめます。PC 幅とスマホ幅の両方で走ります。
+
+- 開くと見出しが出て、点検が 7 項目とも通る
+- **隕石を 5 回ぶつけると、5 種類の壊れ方をすべて見つけ、修理で元に戻る**（壊したのが 1 か所なら、落ちるのも 1 項目だけ）
+- 「動きを減らす」設定では、動き続けるものが無い
+- 幅 320 / 390 / 768 / 1280 px で、横にはみ出さない
+- 外へのリンクは、ぜんぶ https で、決めたサイトだけ
+- sf-meter のメーターの項目を押すと、その実現度を指す
+
+初めて動かすときは、ブラウザーを入れます。
+
+```bash
+npx playwright install chromium
+npm run build && npm run test:e2e
+```
+
+プルリクエストと main への push で、GitHub Actions が lint・ビルド・このテストを走らせます（`.github/workflows/ci.yml`）。
 
 ## 書体
 
@@ -75,6 +96,8 @@ src/
 scripts/
 ├─ check-content.mjs  # ビルド前の点検
 └─ subset-fonts.py    # 書体の作り直し
+e2e/
+└─ portfolio.spec.ts  # 画面を実際に開いて確かめるテスト（Playwright）
 ```
 
 ## デプロイ

@@ -19,6 +19,7 @@ export function PreflightProvider({ children }: { children: ReactNode }) {
 
   const targets = useRef<Partial<Record<CheckId, Element | null>>>({})
   const lastFault = useRef<FaultId | null>(null)
+  const bag = useRef<FaultId[]>([])
   const timers = useRef<number[]>([])
 
   const later = useCallback((task: () => void, delay: number) => {
@@ -76,8 +77,18 @@ export function PreflightProvider({ children }: { children: ReactNode }) {
   const run = useCallback(() => setRunToken((token) => token + 1), [])
 
   const strike = useCallback(() => {
-    const candidates = FAULTS.filter((id) => id !== lastFault.current)
-    const next = candidates[Math.floor(Math.random() * candidates.length)]
+    // 壊れ方は、袋から 1 つずつ引く。袋が空になるまで同じものは出ないので、5 回ぶつければ 5 種類とも見られる
+    if (bag.current.length === 0) {
+      const fresh = [...FAULTS]
+      for (let i = fresh.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[fresh[i], fresh[j]] = [fresh[j], fresh[i]]
+      }
+      // 袋を詰め直した直後に、前回と同じものが続かないようにする
+      if (fresh[0] === lastFault.current) fresh.push(fresh.shift()!)
+      bag.current = fresh
+    }
+    const next = bag.current.shift()!
     lastFault.current = next
     const still = prefersReducedMotion()
     setFlying(true)
