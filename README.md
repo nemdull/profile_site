@@ -48,7 +48,7 @@ Node.js は 20.19 以上、または 22.12 以上。
 
 ## テスト
 
-`e2e/portfolio.spec.ts` が、Playwright で画面を実際に開いて確かめます。PC 幅とスマホ幅の両方で走ります。
+`e2e/portfolio.spec.ts` が、Playwright で画面を実際に開いて確かめます。PC（Chrome）と Android のスマホ幅で走り、CI ではさらに iPhone の Safari と同じ描画エンジン（WebKit）でも走ります。
 
 - 開くと見出しが出て、点検が 7 項目とも通る
 - **隕石を 5 回ぶつけると、5 種類の壊れ方をすべて見つけ、修理で元に戻る**（壊したのが 1 か所なら、落ちるのも 1 項目だけ）
