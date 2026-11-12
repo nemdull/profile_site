@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# 同じブランチで新しい実行が始まったら、古い実行は止める
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: lint・ビルド・画面のテスト
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      # 外部のアクションは、タグではなくコミットの番号で固定する
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+      # package-lock.json のとおりに入れる（実行のたびに版が変わらないように）
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      # 内容の点検 → 型チェック → ビルド
+      - run: npm run build
+      - name: テスト用のブラウザーを入れる
+        run: npx playwright install --with-deps chromium
+      - name: 画面のテスト（PC 幅とスマホ幅）
+        run: npm run test:e2e
