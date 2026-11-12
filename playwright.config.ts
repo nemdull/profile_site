@@ -15,6 +15,9 @@ export default defineConfig({
   projects: [
     { name: 'pc', use: { ...devices['Desktop Chrome'] } },
     { name: 'phone', use: { ...devices['Pixel 7'] } },
+    // iPhone の Safari と同じ描画エンジン（WebKit）。入れるのに時間がかかるので、CI でだけ走らせる。
+    // 手元で走らせるなら: npx playwright install webkit && CI=1 npm run test:e2e
+    ...(process.env.CI ? [{ name: 'iphone', use: { ...devices['iPhone 14'] } }] : []),
   ],
   webServer: {
     command: 'npm run preview -- --port 4173 --strictPort',
