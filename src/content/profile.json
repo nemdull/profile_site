@@ -248,15 +248,16 @@
       {
         "id": "sf-meter",
         "title": "sf-meter",
-        "lead": "SF 作品に出てくるテクノロジーを数値にして、メーターで見せる Web アプリです。いまは「実現度」を 0 から 100 で出しています。",
-        "detail": "API は Go で書きました。フレームワークは使わず標準の net/http で、domain、usecase、infrastructure、presentation、registry に分けて、依存の向きが内側にそろうようにしています。保存先は、環境変数ひとつで PostgreSQL とメモリを切り替えられます。画面は React と TypeScript です。",
+        "lead": "SF 作品に出てくるテクノロジーが、いまどれくらい現実に近いかを、0 から 100 の「実現度」で見せる Web アプリです。",
+        "detail": "API は Go で書きました。フレームワークは使わず標準の net/http で、domain、usecase、infrastructure、presentation、registry に分けて、依存の向きが内側にそろうようにしています。保存先は、環境変数ひとつで PostgreSQL とメモリを切り替えられます。どちらの実装にも同じテストを当てて、差し替えても結果が変わらないことを確かめています。画面は React と TypeScript で、API が落ちていてもサンプルデータで動きます。",
         "tech": [
           "Go",
           "PostgreSQL",
           "Docker",
+          "GitHub Actions",
           "React",
           "TypeScript",
-          "Vite"
+          "Chakra UI"
         ],
         "links": [
           {
