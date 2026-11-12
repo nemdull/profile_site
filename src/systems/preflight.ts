@@ -107,6 +107,8 @@ export const CHECKS: readonly Check[] = [
     label: '画面の横にはみ出していない',
     run: () => {
       const root = document.documentElement
+      // 裏で開かれていて画面の幅が 0 のときは、測りようがないので落とさない
+      if (root.clientWidth === 0) return { ok: true, detail: '画面が出ていないので、まだ測っていません' }
       const over = root.scrollWidth - root.clientWidth
       if (over > 0) return { ok: false, detail: `横に ${over}px はみ出しています` }
       return { ok: true, detail: `幅 ${root.clientWidth}px に収まっています` }
