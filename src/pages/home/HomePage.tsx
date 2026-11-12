@@ -1,16 +1,16 @@
+import { Background, Certifications, Contact, Experience, Hero, Skills, Works, Writing } from '@/components/organisms'
 import { MainLayout } from '@/components/templates/MainLayout'
-import { Certifications, CommunityShowcase, Contact, Experience, Hero, Projects, Skills, SocialLinks } from '@/components/organisms'
 
 export function HomePage() {
   return (
     <MainLayout>
       <Hero />
-      <SocialLinks />
       <Experience />
+      <Works />
+      <Writing />
       <Skills />
       <Certifications />
-      <CommunityShowcase />
-      <Projects />
+      <Background />
       <Contact />
     </MainLayout>
   )

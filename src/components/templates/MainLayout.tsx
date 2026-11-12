@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { Navigation } from '@/components/organisms'
+import { Footer, Navigation } from '@/components/organisms'
 
 type MainLayoutProps = {
   children: ReactNode
@@ -8,9 +8,13 @@ type MainLayoutProps = {
 
 export function MainLayout({ children }: MainLayoutProps) {
   return (
-    <div className="bg-background text-foreground">
+    <>
+      <a href="#main" className="skip-link">
+        本文へ移動
+      </a>
       <Navigation />
-      <main className="flex flex-col gap-0 pt-16">{children}</main>
-    </div>
+      <main id="main">{children}</main>
+      <Footer />
+    </>
   )
 }

@@ -1,89 +1,232 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
+/*
+ * 書体は、このサイトで使っている文字だけを入れたファイルを同梱している（scripts/subset-fonts.py で作る）。
+ * 入っていない文字は、端末に入っている書体で表示される。
+ */
+@font-face {
+  font-family: "BIZ UDPGothic";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("BIZ UDPGothic"), url("./assets/fonts/BIZUDPGothic-Regular.subset.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "BIZ UDPGothic";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("BIZ UDPGothic Bold"), url("./assets/fonts/BIZUDPGothic-Bold.subset.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "BIZ UDPMincho";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/fonts/BIZUDPMincho-Bold.subset.woff2") format("woff2");
+}
 
 @theme inline {
-  --radius: 0.625rem;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-soft: var(--soft);
+  --color-rule: var(--rule);
+  --color-blue: var(--blue);
+  --color-pass: var(--pass);
+  --color-stamp: var(--stamp);
+  --font-sans: var(--ff-sans);
+  --font-seal: var(--ff-seal);
 }
 
 :root {
-  --background: rgba(219, 231, 255, 0.7);
-  --foreground: #031335;
-  --card: rgba(231, 239, 255, 0.72);
-  --card-foreground: #031335;
-  --popover: rgba(231, 239, 255, 0.72);
-  --popover-foreground: #031335;
-  --primary: #143b9c;
-  --primary-foreground: #f5faff;
-  --secondary: #1f4ab8;
-  --secondary-foreground: #edf2ff;
-  --muted: #c8d6ff;
-  --muted-foreground: #243f86;
-  --accent: #ffb13b;
-  --accent-foreground: #2e1c00;
-  --destructive: #b91c1c;
-  --border: #c5d0e4;
-  --input: #c5d0e4;
-  --ring: #1c3faa;
+  color-scheme: light;
+  --ff-sans: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  --ff-seal: "BIZ UDPMincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --paper: #f7f9fb;
+  --surface: #ffffff;
+  --ink: #14202e;
+  --soft: #4a5a6c;
+  --rule: #d5dde6;
+  --blue: #2152c9;
+  --pass: #1b8a5a;
+  --stamp: #d8362f;
 }
 
-.dark {
-  --background: rgba(2, 6, 23, 0.7);
-  --foreground: #dbe7ff;
-  --card: rgba(6, 17, 55, 0.72);
-  --card-foreground: #dbe7ff;
-  --popover: rgba(6, 17, 55, 0.86);
-  --popover-foreground: #dbe7ff;
-  --primary: #4f7ffb;
-  --primary-foreground: #020617;
-  --secondary: #2344c2;
-  --secondary-foreground: #f5faff;
-  --muted: #0f1c4f;
-  --muted-foreground: #9cb5ff;
-  --accent: #ffa629;
-  --accent-foreground: #1b0f00;
-  --destructive: #ef4444;
-  --border: #1c2d55;
-  --input: #1c2d55;
-  --ring: #4f7ffb;
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0e151d;
+  --surface: #141d28;
+  --ink: #e7eef6;
+  --soft: #a3b2c4;
+  --rule: #2a3848;
+  --blue: #86a8ff;
+  --pass: #4fc28e;
+  --stamp: #ff6a5c;
 }
 
-@layer base {
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Aoboshi One', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
-    font-feature-settings: 'palt' 1;
-    font-weight: 500;
-    background-image: url('./assets/images/wallpaper.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0e151d;
+    --surface: #141d28;
+    --ink: #e7eef6;
+    --soft: #a3b2c4;
+    --rule: #2a3848;
+    --blue: #86a8ff;
+    --pass: #4fc28e;
+    --stamp: #ff6a5c;
   }
 }
 
-@layer utilities {
-  .font-mono {
-    font-family: 'Aoboshi One', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif !important;
-    font-feature-settings: 'palt' 1;
-    font-weight: 600;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-sans);
+    line-height: 1.85;
+    line-break: strict;
+    overflow-wrap: anywhere;
+    /* 印が押される動きの途中で、横にはみ出して見えないようにする */
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--blue) 24%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .page {
+    width: 100%;
+    max-width: 70rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .page {
+      padding-inline: 2rem;
+    }
+  }
+
+  .link {
+    color: var(--blue);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+
+  .link:hover {
+    color: var(--ink);
+    text-decoration-thickness: 2px;
+  }
+
+  /* 短い文は、文節の切れ目で折り返し、行の長さをそろえる（対応していないブラウザでは何も起きない） */
+  .phrase {
+    word-break: auto-phrase;
+    text-wrap: balance;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 10;
+    border-radius: 0.375rem;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.5rem 1rem;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  .spec-check {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.12rem;
+  }
+
+  .spec-check circle {
+    fill: color-mix(in srgb, var(--pass) 14%, transparent);
+  }
+
+  .spec-check path {
+    fill: none;
+    stroke: var(--pass);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 14;
+  }
+
+  .stamp {
+    color: var(--stamp);
+    opacity: 0.9;
+    transform: rotate(-9deg);
+  }
+}
+
+/* 動きは、読み込み時の 1 回だけ。チェックが上から順に付き、最後に印が押される */
+@media (prefers-reduced-motion: no-preference) {
+  .spec-check path {
+    animation: tick 0.3s ease-out both;
+    animation-delay: calc(var(--i) * 110ms + 350ms);
+  }
+
+  .stamp {
+    animation: stamp 0.34s cubic-bezier(0.2, 0.8, 0.3, 1.15) both;
+    animation-delay: 1.25s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@keyframes tick {
+  from {
+    stroke-dashoffset: 14;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: rotate(-9deg) scale(1.5);
+  }
+
+  70% {
+    opacity: 0.95;
+    transform: rotate(-9deg) scale(0.97);
+  }
+
+  100% {
+    opacity: 0.9;
+    transform: rotate(-9deg) scale(1);
   }
 }

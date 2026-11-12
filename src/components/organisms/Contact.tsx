@@ -1,61 +1,29 @@
-import { Linkedin, MessageCircle } from 'lucide-react'
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/atoms/Card'
-
-const channels = [
-  {
-    label: 'LinkedIn',
-    description: '仕事のご相談・採用に関するご連絡はこちらが確実です',
-    href: 'https://www.linkedin.com/in/nemdull/',
-    icon: Linkedin,
-  },
-  {
-    label: 'X（DM）',
-    description: '技術の話題や情報交換はお気軽に',
-    href: 'https://x.com/nemdull',
-    icon: MessageCircle,
-  },
-]
+import { ExternalLink } from '@/components/atoms/ExternalLink'
+import { Section } from '@/components/molecules/Section'
+import { profile } from '@/content'
 
 export function Contact() {
-  return (
-    <section id="contact" className="bg-background py-16">
-      <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
-        <div className="space-y-4 text-center">
-          <p className="font-mono text-xs uppercase tracking-[0.4em] text-primary">Contact</p>
-          <h2 className="text-3xl font-semibold sm:text-4xl">お問い合わせ</h2>
-          <p className="text-base text-muted-foreground">
-            新しいプロジェクトや情報交換のご相談は、SNSのメッセージから気軽にご連絡ください。
-          </p>
-        </div>
+  const { contact } = profile
+  const [first, ...rest] = contact.links
 
-        <Card className="border-border/60 bg-card/80">
-          <CardHeader>
-            <CardTitle>連絡チャネル</CardTitle>
-            <CardDescription>首都圏を拠点に活動しています。ご都合の良いチャネルからご連絡ください。</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {channels.map(({ label, description, href, icon: Icon }) => (
-              <div key={label} className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border bg-background">
-                  <Icon className="h-5 w-5 text-primary" />
-                </div>
-                <div className="space-y-1">
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-medium text-primary transition hover:underline"
-                  >
-                    {label}
-                  </a>
-                  <p className="text-sm text-muted-foreground">{description}</p>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+  return (
+    <Section id="contact" title="連絡">
+      <p className="max-w-[34em] text-lg">{contact.text}</p>
+      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+        {first ? (
+          <ExternalLink
+            href={first.url}
+            className="rounded-md bg-ink px-5 py-2.5 font-bold text-paper transition-opacity hover:opacity-85"
+          >
+            {first.label}
+          </ExternalLink>
+        ) : null}
+        {rest.map((link) => (
+          <ExternalLink key={link.url} href={link.url}>
+            {link.label}
+          </ExternalLink>
+        ))}
       </div>
-    </section>
+    </Section>
   )
 }

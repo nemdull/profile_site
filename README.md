@@ -1,76 +1,72 @@
-# nemdull engineer profile site
+# nemdull.com
 
-NemDull（ねむだる）のエンジニアプロフィールサイトを構築するための Vite + React + TypeScript プロジェクトです。shadcn/ui を基盤に Tailwind CSS でテーマを調整し、Atomic Design に沿ったコンポーネント構成へリファクタリングしています。最新の公開版は [https://www.nemdull.com/](https://www.nemdull.com/) から閲覧できます。
+nemdull（ねむだる）のポートフォリオです。公開先は https://www.nemdull.com/ 。
 
-## プロジェクト概要
+Vite、React 19、TypeScript、Tailwind CSS 4 で作っています。
 
-- **フロントエンド基盤**: Vite + React 19 + TypeScript
-- **スタイリング**: Tailwind CSS（shadcn/ui コンポーネントと tailwind-merge を活用）
-- **UI コンポーネント**: `Button` / `Badge` / `Card` / `Progress` などの Atom
-- **設計指針**: Atomic Design（Atoms → Molecules → Organisms → Templates → Pages）
-- **アイコン**: [lucide-react](https://lucide.dev)
-- **主要セクション**（Organisms 配下）:
-  - `Navigation` / `Hero` / `SocialLinks`
-  - `Experience` / `Skills` / `Certifications`
-  - `CommunityShowcase` / `Projects` / `Contact`
+## 考え方
 
-## 必要環境
+- 載せる内容は `src/content/profile.json` の 1 か所にまとめる。文言やリンクを変えるときは、ここだけ直す
+- 「できること」に書く主張には、根拠を 1 つ以上付ける。付いていなければビルドが止まる
+- 書体は、使っている文字だけを入れたファイルを同梱する（外部の配信に頼らない）
 
-- Node.js 20.19 以上 もしくは 22.12 以上  
-- npm（または互換パッケージマネージャー）
-
-## セットアップ
+## 使い方
 
 ```bash
-# 依存関係のインストール
 npm install
-
-# 開発サーバーの起動
-npm run dev
-
-# 型チェックを伴うビルド
-npm run build
-
-# ビルド成果物のプレビュー
-npm run preview
+npm run dev      # 開発サーバー
+npm run check    # 内容の点検だけ
+npm run build    # 内容の点検 → 型チェック → ビルド
+npm run preview  # ビルド結果の確認
+npm run lint
 ```
 
-## ディレクトリ構成（抜粋）
+Node.js は 20.19 以上、または 22.12 以上。
+
+## 内容の点検
+
+`scripts/check-content.mjs` が、`npm run build` の最初に走ります。
+
+| 見ていること | 見つかったとき |
+| --- | --- |
+| 「できること」の各行に根拠があるか | ビルドを止める |
+| リンクが https で、形が正しいか | ビルドを止める |
+| リンク先が、決めた一覧の中にあるか | ビルドを止める |
+| 書体のファイルに入っていない文字が無いか | 警告を出す |
+
+## 書体
+
+BIZ UDPGothic と BIZ UDPMincho（どちらも SIL Open Font License 1.1）から、このサイトで使う文字だけを取り出して `src/assets/fonts/` に置いています。文言に新しい漢字を足したら、作り直します。
+
+```bash
+pip install fonttools brotli
+npm run fonts
+```
+
+作り直さなくても表示は壊れません（足りない文字だけ、端末の書体になります）。
+
+## 構成
 
 ```
-├─ src/
-│  ├─ assets/
-│  │  └─ images/              # プロフィール写真や背景画像
-│  ├─ components/
-│  │  ├─ atoms/               # Shadcn ベースの UI パーツ（Button, Card, …）
-│  │  ├─ molecules/           # 将来追加予定の小さな複合コンポーネント
-│  │  ├─ organisms/           # 各セクション（Navigation, Hero, etc.）
-│  │  └─ templates/           # ページレイアウト（MainLayout など）
-│  ├─ lib/utils.ts            # `cn`（className 結合ユーティリティ）
-│  ├─ pages/
-│  │  └─ home/HomePage.tsx    # トップページの構成
-│  ├─ index.css               # テーマトークンと Tailwind 設定
-│  └─ main.tsx                # エントリーポイント
-├─ package.json               # 依存関係と npm scripts
-├─ vite.config.ts             # Vite 設定（`@` エイリアス含む）
-└─ tsconfig.*                 # TypeScript 設定
+src/
+├─ content/        # profile.json（載せる内容）と、その型
+├─ components/
+│  ├─ atoms/       # リンク、チェックの印
+│  ├─ molecules/   # 節の枠、日付印、明るい／暗いの切り替え
+│  ├─ organisms/   # 画面の各部分（Hero、SpecSheet、Experience など）
+│  └─ templates/   # ページの骨組み
+├─ pages/home/     # トップページ
+├─ assets/         # 画像と書体
+└─ index.css       # 色・書体・動きの定義
+scripts/
+├─ check-content.mjs  # 内容の点検
+└─ subset-fonts.py    # 書体の作り直し
 ```
-
-## 開発 Tips
-
-- **Atomic Design の層構造**:  
-  - Atoms は汎用 UI パーツ、Organisms はセクション単位の UI を収容。  
-  - Template でレイアウト（ヘッダー等）をまとめ、Pages から呼び出します。  
-  - Molecules は必要になったタイミングで配置してください。
-- **テーマ変更**: `src/index.css` の CSS 変数を編集すると配色・タイポグラフィを一括調整できます。
-- **文言・リンク更新**: セクション単位のテキストは `src/components/organisms/` 内の各ファイルで管理しています。
-- **UI 拡張**: shadcn/ui からの追加分は `src/components/atoms/` に配置し、`cn` を使って Tailwind クラスを整理すると保守しやすくなります。
-- **Lint / Format**: `npm run lint` で ESLint、`npm run build` で型チェック込みのビルドを実行できます。
 
 ## デプロイ
 
-`npm run build` で生成される `dist/` ディレクトリを静的ホスティリング（Vercel / Netlify / GitHub Pages など）に配置するだけでデプロイできます。必要に応じてカスタムドメインや計測タグを設定してください。
+main に入ると、Vercel が自動で公開します。プルリクエストごとに、確認用の URL ができます。
 
 ## ライセンス
 
-特に記載がない限り、本リポジトリのコードは MIT ライセンスで提供されています。利用の際はライセンス条件に従ってください。
+コードは MIT ライセンスです。書体のライセンスは `src/assets/fonts/` にあります。

@@ -1,0 +1,253 @@
+{
+  "meta": {
+    "name": "nemdull",
+    "reading": "ねむだる",
+    "role": "アプリケーションエンジニア",
+    "tagline": ["面倒なことは、", "仕組みに任せる。"],
+    "lead": "nemdull（ねむだる）です。金融系 SIer で、会員向け Web システムのプロジェクトリーダーをしています。",
+    "intro": "人が何度も確かめなくて済むように、テストを自動化し、生成 AI には「誤らせない」ための決まりを組み込む。そうやって、保守開発の品質と速度を両立させるのが仕事です。",
+    "reviewedOn": "2026.11.12",
+    "siteUrl": "https://www.nemdull.com/",
+    "repoUrl": "https://github.com/nemdull/profile_site"
+  },
+  "links": [
+    { "label": "GitHub", "url": "https://github.com/nemdull", "primary": true },
+    { "label": "X", "url": "https://x.com/nemdull", "primary": true },
+    { "label": "Zenn", "url": "https://zenn.dev/nemdull", "primary": true },
+    { "label": "Qiita", "url": "https://qiita.com/nemdull", "primary": true },
+    { "label": "Speaker Deck", "url": "https://speakerdeck.com/nemdull", "primary": false },
+    { "label": "connpass", "url": "https://connpass.com/user/nemdull/", "primary": false },
+    { "label": "Findy Skills", "url": "https://findy-code.io/skills-share/6l9E_223HPNgn", "primary": false },
+    { "label": "Instagram", "url": "https://instagram.com/nemdull", "primary": false }
+  ],
+  "claims": [
+    {
+      "claim": "PL として、要件整理から見積・顧客折衝まで案件を回す",
+      "evidence": [{ "kind": "業務", "label": "会員向け Web システムの保守・エンハンス（2026 年度から）" }]
+    },
+    {
+      "claim": "回帰テストを自動化して、手で確かめる回数を減らす",
+      "evidence": [{ "kind": "業務", "label": "管理画面の開発に Playwright と Jest を導入" }]
+    },
+    {
+      "claim": "生成 AI に、期待値を書き換えさせない",
+      "evidence": [
+        { "kind": "業務", "label": "改変の禁止・根拠の必須化・曖昧な表現の自動検査を設計し、社内勉強会で 2 回登壇" }
+      ]
+    },
+    {
+      "claim": "本番障害を、原因までさかのぼって直す",
+      "evidence": [
+        { "kind": "業務", "label": "本番障害 2 件の原因特定と恒久対策" },
+        {
+          "kind": "記事",
+          "label": "障害対応で学んだこと",
+          "url": "https://qiita.com/nemdull/items/460ff96a438317e69722"
+        }
+      ]
+    },
+    {
+      "claim": "Go で、依存の向きを守った API を書く",
+      "evidence": [
+        { "kind": "コード", "label": "sf-meter-api", "url": "https://github.com/nemdull/sf-meter-api" },
+        {
+          "kind": "記事",
+          "label": "Go言語で気づいたシンプル設計の真髄",
+          "url": "https://qiita.com/nemdull/items/7ff73572ccc3c78d311d"
+        }
+      ]
+    },
+    {
+      "claim": "学んだことを、記事にして残す",
+      "evidence": [
+        { "kind": "記事", "label": "Qiita に 10 本（2026 年 11 月時点）", "url": "https://qiita.com/nemdull" },
+        { "kind": "記事", "label": "Zenn にも転載", "url": "https://zenn.dev/nemdull" }
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "period": "2026 年 4 月から現在",
+      "title": "プロジェクトリーダー、PM 補佐",
+      "org": "金融系 SIer（マーケティング領域の DX 案件）／Associate",
+      "summary": "会員向け Web システムの保守・エンハンス案件でプロジェクトリーダーを担当し、要件整理・見積・顧客折衝・パートナー管理を一貫して推進。並行して LP 開発案件の PM 補佐、生成 AI を活用したテスト自動化・設計書整備の社内施策、社内 AI 勉強会の立ち上げを担う。",
+      "points": [
+        "入社 3 年目で PL として保守・エンハンス案件を完遂。顧客から直接依頼を受ける関係を構築",
+        "パートナー成果物のレビューで見積・設計・実装の不備を事前に検出し、手戻りを防止",
+        "生成 AI を「誤らせない仕組みごと」業務に組み込む設計（期待値の改変禁止・根拠必須・曖昧表現の自動検査など）を推進",
+        "AI 向け設計書の形式を Markdown から HTML へ切り替え、保守担当から「現行より理解しやすい」と評価",
+        "社内 AI 勉強会の枠を立ち上げ、2 回登壇。横展開用の共通パッケージ（観点テンプレート・運用マニュアル）を整備"
+      ],
+      "tech": ["Oracle APEX", "PL/SQL", "React", "TypeScript", "AWS", "Playwright", "Claude Code", "Jira"]
+    },
+    {
+      "period": "2024 年 4 月から 2026 年 3 月",
+      "title": "ソフトウェアエンジニア",
+      "org": "金融系 SIer",
+      "summary": "不動産 EC 向け管理画面（Oracle APEX／PL/SQL／React／AWS）の開発・保守を担当。フォーム回帰の E2E 自動化（Playwright）導入、Jest での単体テスト整備により品質向上を実現。Slack × Jira 運用ルールの標準化、障害報告テンプレート整備を通じて開発効率を向上。",
+      "points": [
+        "本番障害 2 件の原因特定と恒久対策を実施し、以降の年度内は障害ゼロで運用",
+        "回帰自動化で手動検証負荷を削減、検証の再現性を向上",
+        "バリデーション標準化、外部連結テスト推進により移行後の安定稼働に貢献",
+        "生成 AI の活用でログ調査・テスト観点出しを効率化",
+        "Qiita などでの外部発信と社内共有で、知見をチーム横断に展開"
+      ],
+      "tech": ["Oracle APEX", "PL/SQL", "React", "TypeScript", "AWS", "Playwright", "Jest"]
+    }
+  ],
+  "works": [
+    {
+      "title": "sf-meter",
+      "lead": "SF 作品に出てくるテクノロジーの危険度や SF 度合いを、数値にして見せる Web アプリ。",
+      "detail": "API は Go。標準ライブラリの net/http を中心に、domain・usecase・infrastructure・presentation・registry の層に分け、依存の向きを内側にそろえています。保存先は、PostgreSQL とメモリ上の実装を環境変数ひとつで切り替えられます。画面は React と TypeScript です。",
+      "tech": ["Go", "PostgreSQL", "Docker", "React", "TypeScript", "Vite"],
+      "links": [
+        { "label": "API のコード", "url": "https://github.com/nemdull/sf-meter-api" },
+        { "label": "画面のコード", "url": "https://github.com/nemdull/sf-meter-web" },
+        { "label": "全体の説明", "url": "https://github.com/nemdull/sf-meter" }
+      ]
+    },
+    {
+      "title": "Slack 匿名お悩み Bot",
+      "lead": "チームで言い出しにくい悩みを、匿名で相談できる Bot。Findy「開発組織のぷち改善ハッカソン」で、1 日で実装しました。",
+      "detail": "LLM と Slack、Playwright を組み合わせています。MVP の線引き、DB を持たない運用、権限の最小化を設計しました。",
+      "tech": ["LLM API", "Slack", "Playwright"],
+      "links": [{ "label": "記事", "url": "https://qiita.com/nemdull/items/a2d72e6a5d4e82161e00" }]
+    },
+    {
+      "title": "sakujiru",
+      "lead": "作字クリエイターのための、作品投稿プラットフォーム。",
+      "detail": "Ruby on Rails 6 と Docker Compose で開発。ローカルとコンテナで Ruby のバージョンが違うことによる依存解決の失敗を、再現して解消しました。CI も試しています。",
+      "tech": ["Ruby on Rails 6", "Docker Compose", "Puma"],
+      "links": [
+        { "label": "コード", "url": "https://github.com/nemdull/sakujiru-app" },
+        { "label": "動いているもの", "url": "https://sakujiru-web.onrender.com/", "note": "起動に少し時間がかかります" },
+        { "label": "記事", "url": "https://qiita.com/nemdull/items/4ca51b8f9a2e814ed0a1" }
+      ]
+    },
+    {
+      "title": "AWS 認定資格の対策書（共著）",
+      "status": "執筆中",
+      "lead": "AWS Solutions Architect Professional 対策書（改訂 2 版）の執筆チームに参加しています。",
+      "detail": "章の執筆と、Markdown から Word へのビルド整備を担当。",
+      "tech": ["AWS", "Markdown"],
+      "links": []
+    },
+    {
+      "title": "モバイルアプリ",
+      "status": "非公開",
+      "lead": "Expo（React Native）で、個人向けのモバイルアプリを開発しています。iOS と Android に対応。",
+      "detail": "",
+      "tech": ["Expo", "React Native", "TypeScript"],
+      "links": []
+    },
+    {
+      "title": "このサイト",
+      "lead": "React 19、Vite、Tailwind CSS。載せる内容は 1 つの JSON にまとめています。",
+      "detail": "根拠の付いていない主張や、リンクの不備が混ざっていないかを、ビルドの前に検査しています。",
+      "tech": ["React", "TypeScript", "Vite", "Tailwind CSS"],
+      "links": [{ "label": "コード", "url": "https://github.com/nemdull/profile_site" }]
+    }
+  ],
+  "writing": [
+    {
+      "date": "2025 年 12 月",
+      "title": "障害対応で学んだこと ― 保守・運用の現場で、実務を通じて理解が進んだこと ―",
+      "url": "https://qiita.com/nemdull/items/460ff96a438317e69722",
+      "site": "Qiita"
+    },
+    {
+      "date": "2025 年 12 月",
+      "title": "Findy「開発組織のぷち改善ハッカソン」で Slack匿名お悩みBot を作った話",
+      "url": "https://qiita.com/nemdull/items/a2d72e6a5d4e82161e00",
+      "site": "Qiita"
+    },
+    {
+      "date": "2025 年 9 月",
+      "title": "Go言語で気づいたシンプル設計の真髄 ─ Rails・Java経験者がハマったポイントまとめ",
+      "url": "https://qiita.com/nemdull/items/7ff73572ccc3c78d311d",
+      "site": "Qiita"
+    },
+    {
+      "date": "2025 年 8 月",
+      "title": "OSSのためにプログラマーでない人ができること",
+      "url": "https://qiita.com/nemdull/items/c48da157ee8f56898cba",
+      "site": "Qiita"
+    },
+    {
+      "date": "2025 年 8 月",
+      "title": "SIer社員が1年弱で取った資格が業務にどれくらい”活きたか”",
+      "url": "https://qiita.com/nemdull/items/d42c71c8997a1dc07d12",
+      "site": "Qiita"
+    },
+    {
+      "date": "2024 年 12 月",
+      "title": "退屈なことどころか全部Replit Agentにやらせよう",
+      "url": "https://qiita.com/nemdull/items/240ccc7c0e5f01106d74",
+      "site": "Qiita"
+    }
+  ],
+  "skills": [
+    {
+      "group": "仕事で使っている",
+      "items": [
+        "Oracle APEX",
+        "PL/SQL",
+        "Oracle Database",
+        "React",
+        "TypeScript",
+        "AWS（Lambda、API Gateway、RDS、S3、CloudWatch）",
+        "Playwright",
+        "Jest",
+        "Jira",
+        "Confluence",
+        "Claude Code"
+      ]
+    },
+    {
+      "group": "個人開発で使っている",
+      "items": ["Go", "PostgreSQL", "Docker", "Ruby on Rails", "Expo（React Native）", "Vite", "Tailwind CSS", "GitHub Actions"]
+    },
+    {
+      "group": "進め方",
+      "items": [
+        "要件整理と見積",
+        "パートナー成果物のレビュー",
+        "影響調査と試験設計",
+        "障害対応と再発防止",
+        "レビュー観点の標準化",
+        "技術記事と社内共有"
+      ]
+    }
+  ],
+  "certifications": [
+    { "date": "2025 年 8 月", "name": "応用情報技術者試験" },
+    { "date": "2025 年 6 月", "name": "ORACLE MASTER Silver SQL 2019" },
+    { "date": "2025 年 3 月", "name": "AWS Certified Cloud Practitioner" },
+    { "date": "2024 年 11 月", "name": "TOEIC 770" },
+    { "date": "2024 年 10 月", "name": "Oracle Certified Java Programmer, Silver SE 17" },
+    { "date": "2024 年 5 月", "name": "Oracle Certified Java Programmer, Bronze SE" },
+    { "date": "2022 年 7 月", "name": "情報セキュリティマネジメント試験" },
+    { "date": "2022 年 6 月", "name": "基本情報技術者試験" },
+    { "date": "2022 年 6 月", "name": "IT パスポート" }
+  ],
+  "background": [
+    {
+      "date": "2025 年 9 月から",
+      "name": "CA TECH LOUNGE",
+      "note": "Go を使ったバックエンド開発を学習中",
+      "url": "https://www.cyberagent.co.jp/careers/special/students/tech_lounge/"
+    },
+    { "date": "2022 年", "name": "Benesse EdTech ハッカソン 2days" },
+    { "date": "2022 年", "name": "Rakuten Product Manager Internship 3days" },
+    { "date": "2022 年", "name": "マネーフォワード エンジニアインターンシップ" },
+    { "date": "2022 年", "name": "IBM IT Specialist" }
+  ],
+  "contact": {
+    "text": "技術の話、情報交換、仕事の相談。どれも X の DM へどうぞ。",
+    "links": [
+      { "label": "X で DM を送る", "url": "https://x.com/nemdull" },
+      { "label": "GitHub を見る", "url": "https://github.com/nemdull" }
+    ]
+  }
+}
