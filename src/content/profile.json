@@ -254,7 +254,7 @@
         "id": "sf-meter",
         "title": "sf-meter",
         "lead": "SF 作品に出てくるテクノロジーが、いまどれくらい現実に近いかを、0 から 100 の「実現度」で見せる Web アプリです。",
-        "detail": "API は Go で書きました。フレームワークは使わず標準の net/http で、domain、usecase、infrastructure、presentation、registry に分けて、依存の向きが内側にそろうようにしています。保存先は、環境変数ひとつで PostgreSQL とメモリを切り替えられます。どちらの実装にも同じテストを当てて、差し替えても結果が変わらないことを確かめています。画面は React と TypeScript で、API が落ちていてもサンプルデータで動きます。",
+        "detail": "API は Go で書きました。フレームワークは使わず標準の net/http で、domain、usecase、infrastructure、presentation、registry に分けて、依存の向きが内側にそろうようにしています。保存先は、環境変数ひとつで PostgreSQL とメモリを切り替えられます。どちらの実装にも同じテストを当てて、差し替えても結果が変わらないことを確かめています。画面は React と TypeScript で、API が落ちていてもサンプルデータで動きます。公開している画面には API を置いていないので、ちょうどその状態で動いています。",
         "tech": [
           "Go",
           "PostgreSQL",
@@ -265,6 +265,10 @@
           "Chakra UI"
         ],
         "links": [
+          {
+            "label": "動いている画面",
+            "url": "https://nemdull.github.io/sf-meter-web/"
+          },
           {
             "label": "API のコード",
             "url": "https://github.com/nemdull/sf-meter-api"
