@@ -304,11 +304,12 @@
         "id": "sakujiru",
         "title": "sakujiru",
         "lead": "作字クリエイターのための、作品投稿サイトです。",
-        "detail": "Ruby on Rails 6 と Docker Compose で作りました。手元とコンテナで Ruby のバージョンが違って依存の解決に失敗する、という問題を再現して直しています。CI も試しました。",
+        "detail": "Ruby on Rails と Docker Compose で作りました。あとから読み直すと、チャットがほかの部屋の人にも届く作りになっていたので、部屋の参加者にだけ届くように直しました。本物のブラウザーを 3 つ開いて、相手にだけ届いて、部屋にいない人には届かないことを確かめるテストと、CI も足しています。",
         "tech": [
-          "Ruby on Rails 6",
+          "Ruby on Rails 7.2",
+          "Action Cable",
           "Docker Compose",
-          "Puma"
+          "GitHub Actions"
         ],
         "links": [
           {
