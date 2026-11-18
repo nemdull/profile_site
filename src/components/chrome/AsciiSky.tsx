@@ -146,15 +146,17 @@ export function AsciiSky() {
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2)
-      // スマホはスクロールでアドレスバーが出入りして高さが変わる。そのたびに星を並べ直すとちらつくので、
-      // 幅が変わったときと、高さが大きく変わったときだけ並べ直す
-      const reseed = window.innerWidth !== width || Math.abs(window.innerHeight - height) > 160
-      width = window.innerWidth
-      if (reseed) height = window.innerHeight
+      // キャンバスの高さは CSS で lvh に固定してあるので、スマホでアドレスバーが出入りしても変わらない。
+      // 大きさが本当に変わったときだけ、描き直して星を並べ直す（毎回やると、ちらつく）
+      const nextWidth = canvas.clientWidth || window.innerWidth
+      const nextHeight = canvas.clientHeight || window.innerHeight
+      if (nextWidth === width && nextHeight === height) return
+      width = nextWidth
+      height = nextHeight
       canvas.width = Math.round(width * ratio)
       canvas.height = Math.round(height * ratio)
       context.setTransform(ratio, 0, 0, ratio, 0, 0)
-      if (reseed) seed()
+      seed()
       start()
     }
 

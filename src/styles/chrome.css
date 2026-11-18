@@ -1,12 +1,18 @@
 /* ───────── 画面に付いてくるもの：星空、上の帯、目次、隕石 ───────── */
 
-/* 星空。夜の部屋は地が透けているので、その後ろに見える */
+/*
+ * 星空。夜の部屋は地が透けているので、その後ろに見える。
+ * 高さは「アドレスバーが引っ込んだときの画面」（lvh）に合わせておく。スマホでバーが出入りしても
+ * キャンバスの大きさが変わらないので、描いた字が縦に伸びない。
+ */
 .sky {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   z-index: -1;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: 100lvh;
   pointer-events: none;
 }
 
@@ -99,12 +105,14 @@
   border-block: 2px solid currentColor;
 }
 
-.hud-menu:hover,
-.chip:hover,
-.hud-home:hover {
-  box-shadow:
-    0 0 0 2px var(--h-ink),
-    3px 4px 0 2px var(--h-ink);
+@media (hover: hover) {
+  .hud-menu:hover,
+  .chip:hover,
+  .hud-home:hover {
+    box-shadow:
+      0 0 0 2px var(--h-ink),
+      3px 4px 0 2px var(--h-ink);
+  }
 }
 
 @media (max-width: 30rem) {
@@ -244,9 +252,14 @@
   box-shadow: inset 0 0 0 2px var(--rule);
 }
 
-.index-card:hover,
 .index-card:focus-visible {
   transform: translateY(-6px) rotate(calc(var(--tilt) * -1)) scale(1.03);
+}
+
+@media (hover: hover) {
+  .index-card:hover {
+    transform: translateY(-6px) rotate(calc(var(--tilt) * -1)) scale(1.03);
+  }
 }
 
 .index-card[aria-current="location"] {

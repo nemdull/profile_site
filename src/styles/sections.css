@@ -101,9 +101,11 @@
   line-height: 1.4;
 }
 
-.row-locate:hover {
-  background: var(--color-alert);
-  color: var(--color-navy);
+@media (hover: hover) {
+  .row-locate:hover {
+    background: var(--color-alert);
+    color: var(--color-navy);
+  }
 }
 
 .console-foot {
@@ -590,10 +592,16 @@
     color 0.18s;
 }
 
-.gauge-picker button:hover,
 .gauge-picker button[aria-pressed="true"] {
   background: var(--ink);
   color: var(--bg);
+}
+
+@media (hover: hover) {
+  .gauge-picker button:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
 }
 
 .gauge-caption {
@@ -627,10 +635,12 @@
   }
 }
 
-.articles a:hover {
-  background: var(--ink);
-  color: var(--bg);
-  padding-left: 1.75rem;
+@media (hover: hover) {
+  .articles a:hover {
+    background: var(--ink);
+    color: var(--bg);
+    padding-left: 1.75rem;
+  }
 }
 
 .article-date,

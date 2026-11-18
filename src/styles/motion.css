@@ -338,9 +338,11 @@
     transform: rotate(var(--tilt));
   }
 
-  .patches[data-inview="true"] > li:hover .patch {
-    transform: rotate(0deg) scale(1.08);
-    transition-delay: 0s;
+  @media (hover: hover) {
+    .patches[data-inview="true"] > li:hover .patch {
+      transform: rotate(0deg) scale(1.08);
+      transition-delay: 0s;
+    }
   }
 
   /* ── 隕石 ── */

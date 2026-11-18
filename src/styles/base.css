@@ -162,10 +162,16 @@ button {
     color 0.18s;
 }
 
-.link:hover {
-  background: var(--accent);
-  color: var(--on-accent);
-  text-decoration-color: transparent;
+/*
+ * ポインターを重ねたときの見た目は、マウスなど「重ねる」ことができる端末にだけ付ける。
+ * 指で触る端末では、押したあとも重ねた見た目が残ってしまうので（:hover が外れない）。
+ */
+@media (hover: hover) {
+  .link:hover {
+    background: var(--accent);
+    color: var(--on-accent);
+    text-decoration-color: transparent;
+  }
 }
 
 .btn {
@@ -189,9 +195,11 @@ button {
 }
 
 /* 押せるものは、切り抜いた紙のように少し浮く */
-.btn:hover:not(:disabled) {
-  transform: translate(-2px, -3px);
-  box-shadow: 4px 5px 0 var(--ink);
+@media (hover: hover) {
+  .btn:hover:not(:disabled) {
+    transform: translate(-2px, -3px);
+    box-shadow: 4px 5px 0 var(--ink);
+  }
 }
 
 .btn:active:not(:disabled) {
@@ -208,10 +216,6 @@ button {
   border-color: var(--accent);
   background: var(--accent);
   color: var(--on-accent);
-}
-
-.btn-primary:hover:not(:disabled) {
-  box-shadow: 4px 5px 0 var(--ink);
 }
 
 .pill {
@@ -231,10 +235,12 @@ button {
     transform 0.2s var(--spring);
 }
 
-.pill:hover {
-  background: var(--ink);
-  color: var(--bg);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .pill:hover {
+    background: var(--ink);
+    color: var(--bg);
+    transform: translateY(-2px);
+  }
 }
 
 .chips {
@@ -311,9 +317,11 @@ button {
   opacity: 1;
 }
 
-.note:hover {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+@media (hover: hover) {
+  .note:hover {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
 }
 
 /* 壊れた所に出る、ひとこと */
