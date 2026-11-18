@@ -42,19 +42,42 @@ export function Hero() {
     let viewportWidth = -1
     let viewportHeight = -1
 
-    // 明かりの位置と大きさを測って、色が広がる円の中心と半径にする
+    // 明かりの位置と大きさを測って、色が広がる円の中心と半径にする。
+    // 見出しは登場の動きやスクロールで動いているので、画面上の位置（getBoundingClientRect）ではなく、
+    // 動きが付く前の置き場所（offset をたどった位置）で測る。こうすると、いつ測っても同じ答えになる
     const measure = () => {
       const lamp = lampRef.current
+      if (!lamp || stage.clientWidth === 0) return
+      let x = lamp.offsetWidth / 2
+      let y = lamp.offsetHeight / 2
+      let node: HTMLElement | null = lamp
+      while (node && node !== stage) {
+        x += node.offsetLeft
+        y += node.offsetTop
+        const parent: Element | null = node.offsetParent
+        if (!(parent instanceof HTMLElement)) return
+        // offsetLeft は親の枠線の内側から測るので、親の枠線の太さを足す（「。」の輪は枠線で描いている）
+        if (parent !== stage) {
+          x += parent.clientLeft
+          y += parent.clientTop
+        }
+        node = parent
+      }
+      // offset は整数に丸められるので、1px ほどずれることがある。見出しが止まっていて、
+      // 画面上の位置がほぼ同じ所にあるときは、小数まで分かるそちらを使う
       const box = stage.getBoundingClientRect()
-      if (!lamp || box.width === 0) return
       const dot = lamp.getBoundingClientRect()
-      const x = dot.left + dot.width / 2 - box.left
-      const y = dot.top + dot.height / 2 - box.top
-      const reach = Math.hypot(Math.max(x, box.width - x), Math.max(y, box.height - y))
-      stage.style.setProperty('--px', `${x.toFixed(1)}px`)
-      stage.style.setProperty('--py', `${y.toFixed(1)}px`)
-      // 半径は、拡大の動きに左右されない、置いたときの大きさから取る
-      stage.style.setProperty('--r0', `${(lamp.offsetWidth / 2).toFixed(2)}px`)
+      const seenX = dot.left + dot.width / 2 - box.left
+      const seenY = dot.top + dot.height / 2 - box.top
+      if (Math.abs(seenX - x) < 2 && Math.abs(seenY - y) < 2) {
+        x = seenX
+        y = seenY
+      }
+      const radius = parseFloat(getComputedStyle(lamp).width) / 2 || lamp.offsetWidth / 2
+      const reach = Math.hypot(Math.max(x, stage.clientWidth - x), Math.max(y, stage.clientHeight - y))
+      stage.style.setProperty('--px', `${x.toFixed(2)}px`)
+      stage.style.setProperty('--py', `${y.toFixed(2)}px`)
+      stage.style.setProperty('--r0', `${radius.toFixed(2)}px`)
       stage.style.setProperty('--reach', `${Math.ceil(reach)}px`)
     }
 
@@ -98,12 +121,15 @@ export function Hero() {
     // 書体が届くと字の幅が変わる。見出しが出そろったあとにも、もう一度測る
     document.fonts?.ready.then(fit, () => undefined)
     const timer = window.setTimeout(fit, 2500)
+    // 見出しの登場の動きが終わるたびに、明かりの位置を測り直す（動きが終わる時刻は、端末の速さで前後するので）
+    content.addEventListener('animationend', measure)
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
     reduce.addEventListener('change', fit)
 
     return () => {
       stop()
       window.clearTimeout(timer)
+      content.removeEventListener('animationend', measure)
       reduce.removeEventListener('change', fit)
     }
   }, [])
