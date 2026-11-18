@@ -1,0 +1,331 @@
+/* ───────── 画面に付いてくるもの：星空、上の帯、目次、隕石 ───────── */
+
+/*
+ * 星空。夜の部屋は地が透けているので、その後ろに見える。
+ * 高さは「アドレスバーが引っ込んだときの画面」（lvh）に合わせておく。スマホでバーが出入りしても
+ * キャンバスの大きさが変わらないので、描いた字が縦に伸びない。
+ */
+.sky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  pointer-events: none;
+}
+
+/* 上の帯。帯そのものは透明で、丸い島が浮いている */
+.hud {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  padding: clamp(0.7rem, 1.8vw, 1.1rem) var(--pad);
+  pointer-events: none;
+}
+
+/* 下の部屋が暗いときは白い島、明るいときは紺の島 */
+.hud[data-scheme="on-dark"] {
+  --h-bg: var(--color-moon);
+  --h-ink: var(--color-navy);
+  --focus: var(--color-lemon);
+}
+
+.hud[data-scheme="on-light"] {
+  --h-bg: var(--color-navy);
+  --h-ink: var(--color-moon);
+  --focus: var(--color-night);
+}
+
+.hud-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.hud-side {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hud-island {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 2.75rem;
+  padding: 0.25rem 1rem;
+  border-radius: 999px;
+  background: var(--h-bg);
+  color: var(--h-ink);
+  /* 島と同じ色の札の上を通っても形が分かるように、文字の色で細い縁を付ける */
+  box-shadow: 0 0 0 2px var(--h-ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: auto;
+  transition:
+    background 0.35s,
+    color 0.35s,
+    box-shadow 0.35s;
+}
+
+.hud-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+
+.hud-crumb {
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+}
+
+.chip {
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  gap: 0.55rem;
+}
+
+.hud-menu {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  gap: 0.6rem;
+}
+
+/* 目次の印。2 本線 */
+.hud-menu-icon {
+  width: 1rem;
+  height: 0.5rem;
+  border-block: 2px solid currentColor;
+}
+
+@media (hover: hover) {
+  .hud-menu:hover,
+  .chip:hover,
+  .hud-home:hover {
+    box-shadow:
+      0 0 0 2px var(--h-ink),
+      3px 4px 0 2px var(--h-ink);
+  }
+}
+
+@media (max-width: 30rem) {
+  .hud-crumb {
+    display: none;
+  }
+
+  .hud-island {
+    padding-inline: 0.8rem;
+  }
+}
+
+/* いちばん狭い画面では、「目次」の字を畳んで 2 本線だけにする（読み上げには残る） */
+@media (max-width: 22.5rem) {
+  .hud-row,
+  .hud-side {
+    gap: 0.35rem;
+  }
+
+  .hud-island {
+    padding-inline: 0.7rem;
+  }
+
+  .hud-menu-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ───────── 目次 ───────── */
+
+.index {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--color-navy);
+  color: var(--color-moon);
+  padding: clamp(0.7rem, 1.8vw, 1.1rem) var(--pad) 3rem;
+  --focus: var(--color-lemon);
+}
+
+.index-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.75rem;
+}
+
+.index-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.index-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0.25rem 1rem;
+  border-radius: 999px;
+  background: var(--color-lemon);
+  color: var(--color-navy);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* 閉じる印。斜めの 2 本線 */
+.index-close-icon {
+  position: relative;
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.index-close-icon::before,
+.index-close-icon::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 auto;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.index-close-icon::after {
+  transform: rotate(-45deg);
+}
+
+.index-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.9rem, 2.4vw, 1.75rem);
+  max-width: 76rem;
+  margin: clamp(1.5rem, 5vh, 3.5rem) auto 0;
+}
+
+@media (min-width: 40rem) {
+  .index-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* 広い画面では 5 枚ずつ、2 段にそろえる */
+@media (min-width: 64rem) {
+  .index-cards {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.index-cards li {
+  transform: rotate(var(--tilt));
+}
+
+.index-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  aspect-ratio: 5 / 6;
+  overflow: hidden;
+  padding: 0.7rem 0.85rem 0.8rem;
+  border-radius: 0.6rem;
+  background: var(--bg);
+  color: var(--ink);
+  transition: transform 0.25s var(--spring);
+}
+
+/* 紺の札は、紺の地に溶けないように縁を付ける */
+.index-card.tone-navy {
+  box-shadow: inset 0 0 0 2px var(--rule);
+}
+
+.index-card:focus-visible {
+  transform: translateY(-6px) rotate(calc(var(--tilt) * -1)) scale(1.03);
+}
+
+@media (hover: hover) {
+  .index-card:hover {
+    transform: translateY(-6px) rotate(calc(var(--tilt) * -1)) scale(1.03);
+  }
+}
+
+.index-card[aria-current="location"] {
+  outline: 3px solid var(--color-lemon);
+  outline-offset: 4px;
+}
+
+.index-num,
+.index-anchor {
+  font-family: var(--font-hud);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  color: var(--soft);
+}
+
+.index-glyph {
+  align-self: center;
+  justify-self: center;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 15vw, 6rem);
+  line-height: 1;
+  color: var(--accent);
+}
+
+@media (min-width: 40rem) {
+  .index-glyph {
+    font-size: clamp(3.5rem, 8vw, 5.5rem);
+  }
+}
+
+.index-label {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* ───────── 隕石 ───────── */
+
+.meteor,
+.flash {
+  position: fixed;
+  z-index: 85;
+  pointer-events: none;
+}
+
+.meteor {
+  top: 0;
+  left: 0;
+  display: none;
+  color: var(--color-lemon);
+  font-family: var(--font-hud);
+  font-size: clamp(1.75rem, 5vw, 3.5rem);
+  line-height: 1;
+  white-space: nowrap;
+  text-shadow: 3px 3px 0 var(--color-navy);
+}
+
+.meteor > span {
+  display: block;
+  transform: rotate(-32deg);
+  transform-origin: left center;
+}
+
+.flash {
+  inset: 0;
+  display: none;
+  background: var(--color-lemon);
+}

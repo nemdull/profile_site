@@ -1,4 +1,5 @@
-import { Section } from '@/components/ui/Section'
+import { CheckNote } from '@/components/machine/CheckNote'
+import { Room } from '@/components/ui/Room'
 import { profile } from '@/content'
 
 // 帯に流すのは、道具の名前だけ（かっこ書きの内訳は下の一覧で読める）
@@ -9,7 +10,7 @@ function Belt({ names, reverse = false }: { names: string[]; reverse?: boolean }
     <div className="belt" data-reverse={reverse || undefined}>
       <div className="belt-track">
         {[0, 1].map((copy) => (
-          <ul key={copy} aria-hidden={copy === 1 || undefined}>
+          <ul key={copy}>
             {names.map((name) => (
               <li key={name}>{name}</li>
             ))}
@@ -27,25 +28,29 @@ export function Skills() {
   const personal = [...tools[1].items, ...tools[2].items].map(short)
 
   return (
-    <>
-      <div className="belts" aria-hidden="true">
-        <Belt names={work} />
-        <Belt names={personal} reverse />
-      </div>
-      <Section id="skills" title={skills.title}>
-        <div className="skill-groups">
-          {skills.groups.map((group) => (
-            <div key={group.group}>
-              <h3 className="skill-group-name">{group.group}</h3>
-              <ul className="skill-list">
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+    <Room
+      id="skills"
+      title={skills.title}
+      note={<CheckNote id="motion" />}
+      banner={
+        <div className="belts" aria-hidden="true">
+          <Belt names={work} />
+          <Belt names={personal} reverse />
         </div>
-      </Section>
-    </>
+      }
+    >
+      <div className="skill-groups">
+        {skills.groups.map((group) => (
+          <div key={group.group}>
+            <h3 className="skill-group-name">{group.group}</h3>
+            <ul className="skill-list">
+              {group.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </Room>
   )
 }

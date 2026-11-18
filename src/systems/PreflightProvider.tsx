@@ -6,7 +6,10 @@ import { CHECKS, FAULTS, type CheckId, type FaultId } from './preflight'
 import { PreflightContext, type CheckState, type Phase, type Preflight } from './preflight-context'
 
 const blank = (): Record<CheckId, CheckState> =>
-  Object.fromEntries(CHECKS.map((check) => [check.id, { status: 'waiting', detail: '' }])) as Record<CheckId, CheckState>
+  Object.fromEntries(CHECKS.map((check) => [check.id, { status: 'waiting', detail: '', brief: '' }])) as Record<
+    CheckId,
+    CheckState
+  >
 
 export function PreflightProvider({ children }: { children: ReactNode }) {
   const [fault, setFault] = useState<FaultId | null>(null)
@@ -54,14 +57,14 @@ export function PreflightProvider({ children }: { children: ReactNode }) {
       targets.current = {}
       for (const check of CHECKS) {
         if (cancelled) return
-        setResults((current) => ({ ...current, [check.id]: { status: 'running', detail: '' } }))
+        setResults((current) => ({ ...current, [check.id]: { status: 'running', detail: '', brief: '' } }))
         await pause(step)
         const outcome = await check.run()
         if (cancelled) return
         targets.current[check.id] = outcome.target ?? null
         setResults((current) => ({
           ...current,
-          [check.id]: { status: outcome.ok ? 'pass' : 'fail', detail: outcome.detail },
+          [check.id]: { status: outcome.ok ? 'pass' : 'fail', detail: outcome.detail, brief: outcome.brief },
         }))
       }
       setPhase('done')
@@ -118,7 +121,10 @@ export function PreflightProvider({ children }: { children: ReactNode }) {
   const locate = useCallback((id: CheckId) => {
     const target = targets.current[id]
     if (!(target instanceof HTMLElement)) return
-    target.scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+    // いちばん上の画面はスクロールで飛び去る演出が付いているので、その中の要素は、演出が始まる前の位置まで戻して見せる。
+    // 点検盤からは遠いうえ、途中で演出を逆向きに通ることになるので、なめらかには動かさず、ぱっと移る
+    if (target.closest('[data-hero-stage]')) window.scrollTo({ top: 0, behavior: 'instant' })
+    else target.scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
     target.dataset.ping = 'true'
     window.setTimeout(() => delete target.dataset.ping, 2600)
   }, [])
@@ -134,7 +140,9 @@ export function PreflightProvider({ children }: { children: ReactNode }) {
       meteor,
       flying,
       impact,
-      busy: flying || phase === 'running',
+      // 点検の途中でも、ぶつける・直す・やり直すは受け付ける（走っている点検は、そこでやり直しになる）。
+      // 点検盤が画面に入った瞬間の自動のやり直しと、ボタンを押すのが重なっても、押したほうが消えないように
+      busy: flying,
       run,
       strike,
       repair,

@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react'
 import type { CheckId, FaultId } from './preflight'
 
 export type CheckStatus = 'waiting' | 'running' | 'pass' | 'fail'
-export type CheckState = { status: CheckStatus; detail: string }
+export type CheckState = { status: CheckStatus; detail: string; brief: string }
 export type Phase = 'idle' | 'running' | 'done'
 
 export type Preflight = {
@@ -19,7 +19,7 @@ export type Preflight = {
   flying: boolean
   /** 衝突した瞬間だけ true */
   impact: boolean
-  /** 隕石が飛んでいる間など、ボタンを押せない間は true */
+  /** 隕石が飛んでいて、ボタンを押せない間は true */
   busy: boolean
   run: () => void
   strike: () => void

@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "fonts": "python3 scripts/subset-fonts.py",
+    "og": "node scripts/og.mjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {

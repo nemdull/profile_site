@@ -57,18 +57,10 @@ export function Gauge() {
     <div ref={ref} className="gauge">
       <div className="gauge-dial">
         <svg viewBox="0 0 240 142" role="img" aria-label={`${item.name}の${meter.unit}は ${item.score}`}>
-          <defs>
-            <linearGradient id="gauge-scale" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0" stopColor="var(--color-alert)" />
-              <stop offset="0.5" stopColor="var(--color-sun)" />
-              <stop offset="1" stopColor="var(--color-go)" />
-            </linearGradient>
-          </defs>
           <path className="gauge-track" d="M20 130 A100 100 0 0 1 220 130" />
           <path
             className="gauge-value"
             d="M20 130 A100 100 0 0 1 220 130"
-            stroke="url(#gauge-scale)"
             strokeDasharray={`${(score / 100) * ARC} ${ARC}`}
           />
           {Array.from({ length: 11 }, (_, tick) => (
@@ -78,7 +70,7 @@ export function Gauge() {
               x1="120"
               y1="42"
               x2="120"
-              y2={tick % 5 === 0 ? 54 : 49}
+              y2={tick % 5 === 0 ? 56 : 50}
               transform={`rotate(${-90 + tick * 18} 120 130)`}
             />
           ))}

@@ -1,0 +1,949 @@
+/* ───────── 部屋ごとの中身 ───────── */
+
+/* ── 発進前チェック：電光掲示板と点検盤 ── */
+
+.led {
+  height: clamp(4.25rem, 9.5vw, 7.75rem);
+  background: #05082b;
+  border-bottom: 1px solid var(--rule);
+}
+
+.led canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.console {
+  position: relative;
+  border: 1px solid var(--rule);
+  background: rgb(27 47 214 / 0.16);
+  font-size: 0.9375rem;
+}
+
+/* 計器の角の印 */
+.console::before,
+.console::after {
+  content: "";
+  position: absolute;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--color-lemon);
+  pointer-events: none;
+}
+
+.console::before {
+  top: -0.35rem;
+  left: -0.35rem;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.console::after {
+  right: -0.35rem;
+  bottom: -0.35rem;
+  border-left: 0;
+  border-top: 0;
+}
+
+.console-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--soft);
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.console-rows > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.console-rows .lamp {
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-top: 0.5rem;
+}
+
+.row-label {
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.row-detail {
+  color: var(--soft);
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  line-height: 1.55;
+}
+
+.console-rows > li[data-status="fail"] .row-detail {
+  color: var(--color-alert);
+}
+
+.row-locate {
+  min-height: 2.25rem;
+  margin-top: 0.45rem;
+  padding: 0.15rem 0.8rem;
+  border: 1.5px solid var(--color-alert);
+  border-radius: 3px;
+  color: var(--color-alert);
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+@media (hover: hover) {
+  .row-locate:hover {
+    background: var(--color-alert);
+    color: var(--color-navy);
+  }
+}
+
+.console-foot {
+  padding: 1rem;
+}
+
+.console-message {
+  min-height: 1.7em;
+  font-family: var(--font-hud);
+  line-height: 1.7;
+}
+
+.console-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.console-note {
+  font-size: 0.9375rem;
+}
+
+/* ── できること ── */
+
+.claims {
+  border-top: 2px solid var(--ink);
+}
+
+.claims > li {
+  display: grid;
+  gap: 1rem 3rem;
+  padding-block: clamp(1.4rem, 3vw, 2.25rem);
+  border-bottom: 2px solid var(--ink);
+}
+
+@media (min-width: 56rem) {
+  .claims > li {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.claim-text {
+  font-size: clamp(1.2rem, 0.95rem + 1.2vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+/* 蛍光ペンの線。行が折り返しても、行ごとに引く */
+.mark {
+  background: linear-gradient(var(--color-lemon), var(--color-lemon)) no-repeat 0 90% / 100% 0.44em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.evidence {
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 0.3rem;
+}
+
+.tag {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+/* 根拠の種類。機械が貼った仕分けの札 */
+.tag-kind {
+  flex: none;
+  min-width: 3.6em;
+  padding: 0.42em 0.5em;
+  border-radius: 3px;
+  background: var(--chip);
+  color: var(--on-chip);
+  font-family: var(--font-hud);
+  font-size: 0.75rem;
+  line-height: 1;
+  text-align: center;
+  transform: translateY(-0.08em);
+}
+
+/* ── やってきた仕事 ── */
+
+.jobs {
+  display: grid;
+  gap: clamp(3rem, 7vw, 5.5rem);
+}
+
+.job {
+  display: grid;
+  gap: 1.25rem 3rem;
+}
+
+@media (min-width: 58rem) {
+  .job {
+    grid-template-columns: minmax(0, 21rem) minmax(0, 1fr);
+  }
+
+  /* 年は、その仕事を読んでいるあいだ横に留まる */
+  .job-when {
+    position: sticky;
+    top: 6.5rem;
+    align-self: start;
+  }
+}
+
+.job-year {
+  color: var(--color-night);
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 17vw, 9.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.job-period {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.8rem;
+  margin-top: 0.8rem;
+  font-family: var(--font-hud);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.now {
+  padding: 0.3em 0.7em;
+  border-radius: 3px;
+  background: var(--color-navy);
+  color: var(--color-lemon);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.job-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.5rem);
+  line-height: 1.3;
+}
+
+.job-org {
+  margin-top: 0.5rem;
+  color: var(--soft);
+  font-weight: 700;
+}
+
+.job-summary {
+  max-width: 40em;
+  margin-top: 1.1rem;
+}
+
+.job-points {
+  display: grid;
+  gap: 0.55rem;
+  max-width: 42em;
+  margin-top: 1.1rem;
+}
+
+.job-points li {
+  position: relative;
+  padding-left: 1.5em;
+}
+
+.job-points li::before {
+  content: "";
+  position: absolute;
+  left: 0.2em;
+  top: 0.7em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--color-night);
+}
+
+/* ── つくったもの ── */
+
+.works-grid {
+  display: grid;
+  gap: clamp(1.25rem, 2.6vw, 2rem);
+}
+
+@media (min-width: 52rem) {
+  .works-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* 最初の 1 枚と、半端になる最後の 1 枚は、横いっぱいに置く */
+  .work-feature,
+  .work:last-child:nth-child(even) {
+    grid-column: 1 / -1;
+  }
+
+  .work:last-child:nth-child(even) .work-text {
+    max-width: 46rem;
+  }
+}
+
+/* 1 枚ずつ、切り抜いた色紙のように置く */
+.work {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: clamp(1.4rem, 3.2vw, 2.6rem);
+  border-radius: 1.5rem;
+  background: var(--bg);
+  color: var(--ink);
+  --shade: var(--color-navy);
+  box-shadow: 0.5rem 0.6rem 0 var(--shade);
+  transition:
+    transform 0.25s var(--spring),
+    box-shadow 0.25s var(--glide);
+}
+
+.work.tone-navy {
+  --shade: var(--color-lemon);
+}
+
+/* 触ると、札が少し浮く */
+@media (hover: hover) {
+  .work:hover {
+    transform: translate(-3px, -4px);
+    box-shadow: 0.75rem 0.9rem 0 var(--shade);
+  }
+}
+
+@media (min-width: 52rem) {
+  .work-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+}
+
+.work-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.25rem);
+  line-height: 1.3;
+}
+
+.work-status {
+  padding: 0.4em 0.7em;
+  border-radius: 3px;
+  background: var(--chip);
+  color: var(--on-chip);
+  font-family: var(--font-hud);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.work-lead {
+  margin-top: 0.9rem;
+  font-weight: 700;
+  line-height: 1.75;
+}
+
+.work-detail {
+  margin-top: 0.7rem;
+  color: var(--soft);
+  font-size: 0.9375rem;
+  line-height: 1.85;
+}
+
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+.work-note {
+  color: var(--soft);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.self-report {
+  align-self: flex-start;
+  margin-top: 1rem;
+}
+
+/* 札ごとの、小さな飾り */
+.bubble {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 1rem;
+  border-radius: 1.2rem 1.2rem 1.2rem 0.25rem;
+  background: var(--color-navy);
+  color: var(--color-moon);
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+}
+
+.bubble-dots {
+  display: inline-flex;
+  gap: 0.3rem;
+}
+
+.bubble-dots i {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--color-lemon);
+}
+
+.lettering {
+  width: min(100%, 12rem);
+  height: auto;
+  fill: none;
+  stroke: var(--color-navy);
+  stroke-width: 28;
+  stroke-linejoin: round;
+}
+
+.typing {
+  align-self: flex-start;
+  padding: 0.45rem 0.8rem;
+  border-radius: 3px;
+  background: var(--color-navy);
+  color: var(--color-lemon);
+  font-family: var(--font-hud);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.typing span::after {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 0.3em;
+  background: currentColor;
+  vertical-align: -0.12em;
+}
+
+.phone {
+  align-self: flex-start;
+  display: grid;
+  align-content: start;
+  gap: 0.3rem;
+  width: 3.2rem;
+  height: 5.4rem;
+  padding: 0.6rem 0.4rem;
+  border: 3px solid var(--color-moon);
+  border-radius: 0.7rem;
+}
+
+.phone i {
+  height: 0.4rem;
+  border-radius: 2px;
+  background: var(--color-lemon);
+}
+
+.phone i:nth-child(2) {
+  width: 70%;
+  background: var(--color-lavender);
+}
+
+.phone i:nth-child(3) {
+  width: 45%;
+  background: var(--color-moon);
+}
+
+/* sf-meter のメーター */
+.gauge {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.gauge-dial {
+  width: min(100%, 24rem);
+}
+
+.gauge-dial svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.gauge-track,
+.gauge-value {
+  fill: none;
+  stroke-width: 22;
+}
+
+.gauge-track {
+  stroke: rgb(10 15 60 / 0.13);
+}
+
+.gauge-value {
+  stroke: var(--color-night);
+  transition: stroke-dasharray 0.8s var(--glide);
+}
+
+.gauge-tick {
+  stroke: var(--color-navy);
+  stroke-width: 2;
+}
+
+.gauge-needle {
+  transform-origin: 120px 130px;
+  transition: transform 0.8s var(--spring);
+}
+
+.gauge-needle line {
+  stroke: var(--color-navy);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.gauge-needle circle {
+  fill: var(--color-lemon);
+  stroke: var(--color-navy);
+  stroke-width: 4;
+}
+
+.gauge-ends {
+  display: flex;
+  justify-content: space-between;
+  color: var(--soft);
+  font-family: var(--font-hud);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.gauge-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem 1.25rem;
+}
+
+.gauge-name {
+  font-weight: 700;
+}
+
+.gauge-score {
+  color: var(--color-night);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 9vw, 5rem);
+  line-height: 1;
+}
+
+.gauge-score small {
+  margin-right: 0.7rem;
+  color: var(--soft);
+  font-family: var(--font-hud);
+  font-size: 0.75rem;
+  vertical-align: middle;
+}
+
+.gauge-picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.gauge-picker button {
+  min-height: 2.5rem;
+  padding: 0.2rem 0.9rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+
+.gauge-picker button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+@media (hover: hover) {
+  .gauge-picker button:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+}
+
+.gauge-caption {
+  color: var(--soft);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+/* ── 書いたもの ── */
+
+.articles {
+  border-top: 2px solid var(--ink);
+}
+
+.articles a {
+  display: grid;
+  gap: 0.15rem 2rem;
+  padding: 1.1rem 0.5rem;
+  border-bottom: 2px solid var(--ink);
+  transition:
+    background 0.2s,
+    color 0.2s,
+    padding 0.3s var(--glide);
+}
+
+@media (min-width: 48rem) {
+  .articles a {
+    grid-template-columns: 8.5em minmax(0, 1fr) auto;
+    align-items: baseline;
+    padding: 1.35rem 1rem;
+  }
+}
+
+@media (hover: hover) {
+  .articles a:hover {
+    background: var(--ink);
+    color: var(--bg);
+    padding-left: 1.75rem;
+  }
+}
+
+.article-date,
+.article-site {
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.article-title {
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.more-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+/* ── 使っている道具 ── */
+
+.belts {
+  display: grid;
+  gap: 0.15rem;
+  overflow: hidden;
+  padding-top: clamp(2.5rem, 6vw, 5rem);
+}
+
+.belt {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.belt-track {
+  display: inline-flex;
+  width: max-content;
+}
+
+.belt ul {
+  display: inline-flex;
+}
+
+/* 道具の名前は、縁だけの字と塗った字を混ぜて流す */
+.belt li {
+  padding-right: 0.55em;
+  color: transparent;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 9vw, 7rem);
+  line-height: 1.2;
+  -webkit-text-stroke: 1.5px var(--color-moon);
+}
+
+.belt li:nth-child(3n + 1) {
+  color: var(--color-lemon);
+  -webkit-text-stroke: 0;
+}
+
+.belt[data-reverse] li:nth-child(3n + 2) {
+  color: var(--color-lavender);
+  -webkit-text-stroke: 0;
+}
+
+.skill-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 2.5rem 2rem;
+}
+
+.skill-group-name {
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--color-lemon);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.skill-list {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.skill-list li {
+  line-height: 1.65;
+}
+
+/* ── 資格 ── */
+
+.patches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(45%, 9rem), 1fr));
+  gap: 2.25rem 1.25rem;
+}
+
+.patches > li {
+  text-align: center;
+}
+
+/* ワッペン。内側の点線は縫い目 */
+.patch {
+  --felt: var(--color-night);
+  --thread: var(--color-moon);
+  display: grid;
+  place-content: center;
+  gap: 0.25rem;
+  width: min(100%, 7.75rem);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  border-radius: 50%;
+  background: var(--felt);
+  color: var(--thread);
+  outline: 2px dashed var(--thread);
+  outline-offset: -0.55rem;
+  box-shadow: 0.3rem 0.4rem 0 var(--color-navy);
+  transform: rotate(var(--tilt));
+}
+
+[data-tone="sun"] > .patch {
+  --felt: var(--color-lemon);
+  --thread: var(--color-navy);
+}
+
+[data-tone="go"] > .patch {
+  --felt: var(--color-go);
+  --thread: var(--color-navy);
+}
+
+[data-tone="ice"] > .patch {
+  --felt: var(--color-lavender);
+  --thread: var(--color-navy);
+}
+
+.patch-mark {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.patch-date {
+  font-family: var(--font-hud);
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+.patch-name {
+  margin-top: 1.1rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.patch-when {
+  color: var(--soft);
+  font-family: var(--font-hud);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+
+/* ── コミュニティとインターン ── */
+
+.dated {
+  max-width: 56rem;
+  border-top: 2px solid var(--ink);
+}
+
+.dated > li {
+  display: grid;
+  grid-template-columns: 7.5em minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1rem 0.25rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.dated-when {
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+}
+
+.dated > li > span:last-child {
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.dated-note {
+  display: block;
+  color: var(--soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* ── 話しかけてください ── */
+
+.contact > .page {
+  padding-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+
+.contact-title {
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+.contact-grid {
+  display: grid;
+  gap: 2.5rem 4rem;
+}
+
+@media (min-width: 56rem) {
+  .contact-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.contact-text {
+  max-width: 26em;
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1.75;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.elsewhere-title {
+  color: var(--color-lemon);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.elsewhere {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.elsewhere-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+}
+
+/* いちばん下の大きな名前。7 文字で画面の幅をほぼ使い切る（Dela Gothic One で、幅の合計は 4.58em） */
+.wordmark {
+  overflow: hidden;
+  color: var(--color-lemon);
+  font-family: var(--font-display);
+  font-size: 20.9vw;
+  line-height: 0.9;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.wordmark span {
+  display: inline-block;
+  transform: translateY(var(--lift, 0em));
+  transition:
+    transform 0.3s var(--spring),
+    color 0.2s;
+}
+
+.wordmark span[data-hot="true"] {
+  color: var(--color-moon);
+}
+
+/* ── フッター ── */
+
+.footer {
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+  padding-bottom: 2.25rem;
+  font-size: 0.9375rem;
+}
+
+/* 画面の幅を測る物差し。10px ごとに短い目盛り、50px ごとに長い目盛り */
+.ruler {
+  height: 1.15rem;
+  background:
+    repeating-linear-gradient(90deg, var(--color-lemon) 0 2px, transparent 2px 50px) 0 0 / 100% 100% no-repeat,
+    repeating-linear-gradient(90deg, var(--color-lemon) 0 1px, transparent 1px 10px) 0 0 / 100% 45% no-repeat;
+}
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-top: 1.5rem;
+}
+
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.25rem;
+}

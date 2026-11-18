@@ -1,12 +1,12 @@
 import { ExternalLink } from '@/components/ui/ExternalLink'
-import { Section } from '@/components/ui/Section'
+import { Room } from '@/components/ui/Room'
 import { profile } from '@/content'
 
 export function Background() {
   const { background } = profile
 
   return (
-    <Section id="background" title={background.title}>
+    <Room id="background" title={background.title}>
       <ul className="dated">
         {background.items.map((item) => (
           <li key={item.name}>
@@ -18,6 +18,6 @@ export function Background() {
           </li>
         ))}
       </ul>
-    </Section>
+    </Room>
   )
 }

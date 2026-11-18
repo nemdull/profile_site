@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 
 import { ExternalLink } from '@/components/ui/ExternalLink'
-import { Section } from '@/components/ui/Section'
+import { Room } from '@/components/ui/Room'
 import { profile } from '@/content'
 import { useInView } from '@/lib/hooks'
 
@@ -20,7 +20,7 @@ export function Patches() {
   const [ref, inView] = useInView<HTMLUListElement>('0px 0px -12% 0px')
 
   return (
-    <Section
+    <Room
       id="certifications"
       title={certifications.title}
       lead={
@@ -34,7 +34,8 @@ export function Patches() {
         {certifications.items.map((item, index) => (
           <li
             key={item.name}
-            style={{ '--i': index, '--tilt': `${TILTS[index % TILTS.length]}deg`, '--tone': `var(--color-${item.tone})` } as CSSProperties}
+            data-tone={item.tone}
+            style={{ '--i': index, '--tilt': `${TILTS[index % TILTS.length]}deg` } as CSSProperties}
           >
             <div className="patch" aria-hidden="true">
               <span className="patch-mark">{item.mark}</span>
@@ -45,6 +46,6 @@ export function Patches() {
           </li>
         ))}
       </ul>
-    </Section>
+    </Room>
   )
 }
