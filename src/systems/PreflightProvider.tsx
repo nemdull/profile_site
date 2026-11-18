@@ -121,10 +121,10 @@ export function PreflightProvider({ children }: { children: ReactNode }) {
   const locate = useCallback((id: CheckId) => {
     const target = targets.current[id]
     if (!(target instanceof HTMLElement)) return
-    const behavior = prefersReducedMotion() ? 'auto' : 'smooth'
-    // いちばん上の画面はスクロールで飛び去る演出が付いているので、その中の要素は、演出が始まる前の位置まで戻して見せる
-    if (target.closest('[data-hero-stage]')) window.scrollTo({ top: 0, behavior })
-    else target.scrollIntoView({ block: 'center', behavior })
+    // いちばん上の画面はスクロールで飛び去る演出が付いているので、その中の要素は、演出が始まる前の位置まで戻して見せる。
+    // 点検盤からは遠いうえ、途中で演出を逆向きに通ることになるので、なめらかには動かさず、ぱっと移る
+    if (target.closest('[data-hero-stage]')) window.scrollTo({ top: 0, behavior: 'instant' })
+    else target.scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
     target.dataset.ping = 'true'
     window.setTimeout(() => delete target.dataset.ping, 2600)
   }, [])

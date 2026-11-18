@@ -19,6 +19,17 @@ async function checksFinished(page: Page) {
   await expect(board(page)).toHaveAttribute('data-phase', 'done', { timeout: 20_000 })
 }
 
+/** スクロールが止まるのを待つ（「壊れた所を見る」は、その場所までなめらかに動く。動いている最中に次を押さないように） */
+async function scrollSettled(page: Page) {
+  await page.waitForFunction(
+    () =>
+      new Promise<boolean>((resolve) => {
+        const before = window.scrollY
+        window.setTimeout(() => resolve(window.scrollY === before), 250)
+      }),
+  )
+}
+
 test.describe('開いたとき', () => {
   test('見出しが出て、点検が 7 項目とも通る', async ({ page }) => {
     await page.goto('/')
@@ -197,6 +208,7 @@ test.describe('発進前チェック', () => {
       // 「壊れた所を見る」で、原因の場所に印が付く
       await failed.getByRole('button', { name: '壊れた所を見る' }).click()
       await expect(page.locator('[data-ping="true"]')).toBeVisible()
+      await scrollSettled(page)
 
       await page.getByRole('button', { name: '修理する' }).click()
       await expect(board(page)).not.toHaveAttribute('data-failed', 'true', { timeout: 20_000 })
