@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 
 import { ExternalLink } from '@/components/ui/ExternalLink'
-import { Panel } from '@/components/ui/Panel'
-import { Section } from '@/components/ui/Section'
+import { Room } from '@/components/ui/Room'
 import { profile, work, type Work } from '@/content'
+import type { Tone } from '@/content/rooms'
 import { CHECKS } from '@/systems/preflight'
 import { usePreflight } from '@/systems/preflight-context'
 
@@ -39,12 +39,17 @@ function WorkText({ item, children }: { item: Work; children?: ReactNode }) {
   )
 }
 
+/** つくったものの 1 枚。札ごとに地の色を変える */
+function Card({ tone, className = '', children }: { tone: Tone; className?: string; children: ReactNode }) {
+  return <article className={`work tone-${tone} ${className}`.trim()}>{children}</article>
+}
+
 /** このサイトの欄に出す、いまの点検結果 */
 function SelfReport() {
   const { passed, failed, phase } = usePreflight()
   const state = failed > 0 ? 'fail' : phase === 'done' ? 'pass' : 'running'
   return (
-    <a href="#preflight" className="self-report" data-state={state}>
+    <a href="#preflight" className="note self-report" data-status={state}>
       <span className="lamp" aria-hidden="true" />
       {failed > 0
         ? `いま ${failed} 件、落ちています`
@@ -57,14 +62,14 @@ function SelfReport() {
 
 export function Works() {
   return (
-    <Section id="works" title={profile.works.title}>
+    <Room id="works" title={profile.works.title}>
       <div className="works-grid">
-        <Panel className="panel-wide panel-meter">
+        <Card tone="moon" className="work-feature">
           <WorkText item={work('sf-meter')} />
           <Gauge />
-        </Panel>
+        </Card>
 
-        <Panel className="panel-half">
+        <Card tone="lemon">
           <div className="bubble" aria-hidden="true">
             <span className="bubble-who">匿名さん</span>
             <span className="bubble-dots">
@@ -74,35 +79,35 @@ export function Works() {
             </span>
           </div>
           <WorkText item={work('slack-bot')} />
-        </Panel>
+        </Card>
 
-        <Panel className="panel-half">
+        <Card tone="lavender">
           <Lettering />
           <WorkText item={work('sakujiru')} />
-        </Panel>
+        </Card>
 
-        <Panel className="panel-third">
+        <Card tone="moon">
           <p className="typing" aria-hidden="true">
             <span>改訂 2 版、書いています</span>
           </p>
           <WorkText item={work('book')} />
-        </Panel>
+        </Card>
 
-        <Panel className="panel-third">
+        <Card tone="navy">
           <div className="phone" aria-hidden="true">
             <i />
             <i />
             <i />
           </div>
           <WorkText item={work('app')} />
-        </Panel>
+        </Card>
 
-        <Panel className="panel-third">
+        <Card tone="lemon">
           <WorkText item={work('site')}>
             <SelfReport />
           </WorkText>
-        </Panel>
+        </Card>
       </div>
-    </Section>
+    </Room>
   )
 }

@@ -1,12 +1,12 @@
 import { ExternalLink } from '@/components/ui/ExternalLink'
-import { Section } from '@/components/ui/Section'
+import { Room } from '@/components/ui/Room'
 import { profile } from '@/content'
 
 export function Writing() {
   const { writing } = profile
 
   return (
-    <Section id="writing" title={writing.title} lead={<p>{writing.lead}</p>}>
+    <Room id="writing" title={writing.title} lead={<p>{writing.lead}</p>}>
       <ul className="articles">
         {writing.items.map((article) => (
           <li key={article.url}>
@@ -27,6 +27,6 @@ export function Writing() {
           </li>
         ))}
       </ul>
-    </Section>
+    </Room>
   )
 }

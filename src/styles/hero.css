@@ -1,0 +1,550 @@
+/* ───────── いちばん上の画面 ───────── */
+
+/*
+ * .hero はスクロールする長さを作る枠で、.hero-stage が画面に留まる（sticky）。
+ * 進み具合は Hero.tsx が 2 つの変数に書く。文字が飛ぶのも、色が広がるのも、そこから CSS で計算する。
+ *   --fly  見出しの文字が飛び去るまで（0〜1）
+ *   --grow 最後の「。」の明かりが、画面を覆うまで（0〜1）
+ * 見出しの大きさ: 3 行目の 1 文字を --s3 とすると、1・2 行目は 2.5 倍。こうすると 3 行の幅がそろう
+ * （Dela Gothic One は「。」の幅が 0.332em なので、4 文字の行は 3.332em、9 文字の行は 8.332em）。
+ */
+.hero {
+  --s3: min(10.6vw, 6svh);
+  --s1: calc(var(--s3) * 2.5);
+  --fly: 0;
+  --grow: 0;
+  position: relative;
+  height: 340vh;
+  height: 340svh;
+}
+
+.hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  overflow: clip;
+}
+
+.hero-content {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "head head"
+    "copy copy"
+    "acts moon"
+    "links links";
+  align-content: center;
+  align-items: center;
+  gap: clamp(0.6rem, 1.8svh, 1.25rem) 1rem;
+  padding: 4.5rem var(--pad) 3rem;
+  color: var(--ink);
+}
+
+/*
+ * 自己紹介の部屋に覆われたら、下に隠れたボタンやリンクは、キーボードでも選べないようにする。
+ * 見出し（h1）はそのままにしておく（ページの見出しとして、読み上げにはいつでも出したいので）。
+ */
+.hero-stage[data-out="true"] :is(.readout, .hero-side, .scroll-cue) {
+  visibility: hidden;
+}
+
+/*
+ * 中身が画面に収まらない端末（Hero.tsx が data-pin="false" を付ける）と、「動きを減らす」設定のときは、
+ * 留めずに、上から順にふつうに並べる。設定のほうは、スクリプトを待たずに最初からそう並ぶよう、ここにも書く。
+ */
+.hero[data-pin="false"] {
+  height: auto;
+}
+
+.hero[data-pin="false"] .hero-stage {
+  position: relative;
+  height: auto;
+  overflow: visible;
+}
+
+.hero[data-pin="false"] .hero-content {
+  position: relative;
+  min-height: 100svh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    height: auto;
+  }
+
+  .hero .hero-stage {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .hero .hero-content {
+    position: relative;
+    min-height: 100svh;
+  }
+}
+
+/* ── 見出し ── */
+
+.headline-box {
+  grid-area: head;
+  position: relative;
+  min-width: 0;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.headline .line {
+  display: block;
+  font-size: var(--s1);
+  line-height: 0.98;
+}
+
+.headline .line-go {
+  font-size: var(--s3);
+  line-height: 1.2;
+  margin-top: 0.14em;
+}
+
+/* スクロールで飛んでいく入れ物（外側）と、登場の動きを付ける字（内側）を分けてある */
+.fly {
+  display: inline-block;
+  transform: translate3d(0, calc(var(--fly) * var(--lift) * -1svh), 0) rotate(calc(var(--fly) * var(--spin)));
+}
+
+.ch {
+  display: inline-block;
+}
+
+/*
+ * 「。」は輪で描く。大きさは Dela Gothic One の「。」に合わせてある
+ * （外径 0.272em、線の太さ 0.067em、ベースラインから 0.035em 下がる、送り幅 0.332em）。
+ * 中の字は読み上げと検索のために残して、見えなくしている。
+ */
+.maru {
+  position: relative;
+  box-sizing: border-box;
+  width: 0.272em;
+  height: 0.272em;
+  margin: 0 0.03em -0.035em;
+  border: 0.067em solid currentColor;
+  border-radius: 50%;
+  vertical-align: baseline;
+}
+
+.maru-glyph {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  font-size: 1px;
+  line-height: 1;
+  opacity: 0;
+}
+
+/* 最後の「。」の明かり。次の部屋の色で点いていて、スクロールするとここから色が広がる */
+.maru-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-lemon);
+}
+
+/* 見出しが吹き飛んだとき。空の h1 は、元の見出しがあった場所を覚えておく（「壊れた所を見る」の行き先になる） */
+.headline-box[data-broken="true"] .headline-empty {
+  position: absolute;
+  inset: 0;
+}
+
+.headline-debris .fly {
+  transform: translate(calc((var(--lift) - 110) * 0.012em), calc(var(--lift) * 0.004em)) rotate(calc(var(--spin) * 5));
+  opacity: 0.5;
+}
+
+.headline-box .fault-note {
+  position: absolute;
+  left: 0;
+  bottom: -0.5rem;
+  margin: 0;
+  background: var(--color-navy);
+}
+
+/* ── 月（アイコン） ── */
+
+.moon-wrap {
+  grid-area: moon;
+  position: relative;
+  justify-self: end;
+  width: min(34vw, 20svh);
+  transform: translate3d(0, calc(var(--fly) * -58svh), 0) rotate(calc(var(--fly) * 14deg));
+}
+
+.moon {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0.45rem 0.55rem 0 var(--color-navy);
+}
+
+.moon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+}
+
+/* 機械が描き起こしている途中の、粗い点の絵 */
+.moon-dither {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.moon-dither[data-done="true"] {
+  display: none;
+}
+
+/* 通信が切れたときの砂嵐 */
+.moon[data-dead] {
+  background:
+    repeating-conic-gradient(var(--color-navy) 0% 25%, var(--color-moon) 0% 50%) 0 0 / 6px 6px,
+    var(--color-moon);
+}
+
+.moon[data-dead] img,
+.moon[data-dead] .moon-dither {
+  opacity: 0;
+}
+
+.moon-static {
+  position: absolute;
+  inset: 50% 0 auto;
+  transform: translateY(-50%);
+  padding: 0.35rem 0.25rem;
+  background: var(--color-navy);
+  color: var(--color-alert);
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.zzz {
+  position: absolute;
+  right: 2%;
+  top: -6%;
+  color: var(--color-lemon);
+  font-family: var(--font-hud);
+  line-height: 1;
+}
+
+.zzz span {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: calc(1rem + var(--z) * 0.55rem);
+  transform: translate(calc(var(--z) * 0.9rem), calc(var(--z) * -1.25rem));
+}
+
+.zzz span:nth-child(1) {
+  --z: 0;
+}
+
+.zzz span:nth-child(2) {
+  --z: 1;
+}
+
+.zzz span:nth-child(3) {
+  --z: 2;
+}
+
+/* ── 機械の読み取り値と、ボタン ── */
+
+/* 狭い画面では、月・ボタン・リンクをそれぞれ格子の上に直接置く */
+.hero-side {
+  display: contents;
+}
+
+.readout,
+.hero-actions,
+.hero-links,
+.scroll-cue {
+  opacity: calc(1 - var(--fly) * 5);
+}
+
+.readout {
+  grid-area: copy;
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  font-family: var(--font-hud);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+}
+
+.readout > div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9em;
+}
+
+.readout dt {
+  flex: none;
+  color: var(--color-lemon);
+}
+
+.readout dt::before {
+  content: "> ";
+}
+
+.readout-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.readout .note {
+  white-space: nowrap;
+}
+
+.hero-actions {
+  grid-area: acts;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.hero-actions .btn {
+  width: 100%;
+  min-height: 3rem;
+  padding-inline: 1rem;
+}
+
+@media (max-width: 22.5rem) {
+  .hero-actions .btn {
+    padding-inline: 0.6rem;
+    font-size: 0.875rem;
+  }
+
+  .readout {
+    font-size: 0.8125rem;
+  }
+}
+
+.hero-links {
+  grid-area: links;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.hero-links .pill {
+  font-size: 0.875rem;
+}
+
+.pill [data-state="broken"],
+.pill [data-state="stranger"] {
+  color: var(--color-lemon);
+  text-decoration: underline wavy;
+  text-underline-offset: 0.3em;
+}
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transform: translateX(-50%);
+  padding: 0.3rem 0.5rem;
+  color: var(--soft);
+  font-family: var(--font-hud);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.scroll-cue i {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+}
+
+/* ── 自己紹介の部屋。最後の「。」の明かりから円になって広がり、その中に見えてくる ── */
+
+.portal {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  align-content: center;
+  padding: 5.25rem max(var(--pad), calc((100vw - 82rem) / 2 + var(--pad))) 3.5rem;
+  background: var(--bg);
+  color: var(--ink);
+  clip-path: circle(calc(var(--r0, 0px) + var(--grow) * var(--reach, 150vmax)) at var(--px, 50%) var(--py, 50%));
+}
+
+/* 明かりがまだ小さいうちは、下にあるボタンを押す邪魔をしない */
+.hero-stage:not([data-out="true"]) .portal {
+  pointer-events: none;
+}
+
+.hero[data-pin="false"] .portal {
+  position: relative;
+  inset: auto;
+  padding-block: clamp(4.5rem, 11vw, 9rem);
+  clip-path: none;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero .portal {
+    position: relative;
+    inset: auto;
+    padding-block: clamp(4.5rem, 11vw, 9rem);
+    clip-path: none;
+    pointer-events: auto;
+  }
+}
+
+.intro-text {
+  position: relative;
+  max-width: 26em;
+  font-size: clamp(1.3rem, 0.85rem + 2.2vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.intro-text p + p {
+  margin-top: 1em;
+}
+
+/* まだ読んでいない語は薄く、読んだ語から濃くなる */
+.intro-text[data-read="live"] .w {
+  opacity: 0.22;
+  transition: opacity 0.3s;
+}
+
+.intro-text[data-read="live"] .w[data-on="true"] {
+  opacity: 1;
+}
+
+.caret {
+  position: absolute;
+  display: none;
+  width: 0.42em;
+  margin-left: 0.12em;
+  background: var(--color-night);
+  pointer-events: none;
+}
+
+.intro-text[data-read="live"] .caret {
+  display: block;
+}
+
+/* ── 縦長で幅のある画面（タブレットなど）：見出しと月を、もう一段大きくする ── */
+
+@media (min-width: 40rem) and (max-aspect-ratio: 5/4) {
+  .hero {
+    --s3: min(10.6vw, 7.6svh);
+  }
+
+  .moon-wrap {
+    width: min(30vw, 24svh);
+  }
+
+  .hero-actions {
+    max-width: 22rem;
+  }
+}
+
+/* ── 背の低い画面：「下に続きます」を畳み、さらに低ければリンクの行も畳んで、1 枚に収める ── */
+
+@media (max-height: 700px) and (max-width: 59.99rem) {
+  .hero-content {
+    padding-bottom: 1rem;
+  }
+
+  .scroll-cue {
+    display: none;
+  }
+}
+
+@media (max-height: 600px) and (max-width: 59.99rem) {
+  .hero-links {
+    display: none;
+  }
+}
+
+/* ── 横に広い画面：左に見出しと読み取り値、右に月とボタンを並べる ── */
+
+@media (min-width: 60rem) and (min-aspect-ratio: 5/4) {
+  .hero {
+    --s3: min(7.3vw, 10.6svh);
+  }
+
+  .moon-wrap {
+    justify-self: center;
+  }
+
+  .hero-content {
+    grid-template-columns: max-content minmax(0, 1fr);
+    grid-template-areas:
+      "head side"
+      "copy side";
+    gap: clamp(1rem, 3svh, 2rem) clamp(1.5rem, 4vw, 4rem);
+    /* とても広い画面では、左右に余白を取って、見出しと月が離れすぎないようにする */
+    padding: 5rem max(var(--pad), calc((100vw - 100rem) / 2 + var(--pad))) 2.75rem;
+  }
+
+  .hero-side {
+    grid-area: side;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.9rem, 2.6svh, 1.6rem);
+    min-width: 0;
+  }
+
+  .moon-wrap {
+    width: min(100%, 44svh, 26rem);
+  }
+
+  .moon {
+    box-shadow: 0.7rem 0.85rem 0 var(--color-navy);
+  }
+
+  .hero-actions {
+    width: min(100%, 19rem);
+    margin-top: 0.6rem;
+  }
+
+  .hero-links {
+    justify-content: center;
+  }
+
+  .hero-links .pill {
+    font-size: 0.9375rem;
+  }
+
+  .readout {
+    align-self: start;
+    font-size: 0.9375rem;
+  }
+}

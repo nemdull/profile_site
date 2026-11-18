@@ -82,6 +82,73 @@ test.describe('開いたとき', () => {
   })
 })
 
+test.describe('いちばん上の画面', () => {
+  /** 画面に留まっている区間の、何割の所までスクロールするか */
+  const scrollHero = (page: Page, ratio: number) =>
+    page.evaluate((value) => {
+      const track = document.querySelector<HTMLElement>('.hero')!
+      const stage = document.querySelector<HTMLElement>('.hero-stage')!
+      window.scrollTo({ top: (track.offsetHeight - stage.offsetHeight) * value, behavior: 'instant' })
+    }, ratio)
+
+  test('スクロールすると、最後の「。」の明かりから自己紹介の部屋が広がる', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('.hero')).toHaveAttribute('data-pin', 'true')
+    await expect(page.getByRole('link', { name: 'つくったものを見る' })).toBeVisible()
+
+    // 留まっている区間の半分まで進むと、明かりの色が画面を覆って、奥の自己紹介を読んでいる途中になる
+    await scrollHero(page, 0.5)
+    await expect(page.locator('.hero-stage')).toHaveAttribute('data-out', 'true')
+    const words = page.locator('.intro-text .w')
+    await expect(words.first()).toHaveAttribute('data-on', 'true')
+    await expect(words.last()).not.toHaveAttribute('data-on', 'true')
+    // 覆われた見出しの側のボタンは、もう選べない
+    await expect(page.getByRole('link', { name: 'つくったものを見る' })).toBeHidden()
+
+    // 最後まで進むと、自己紹介を読み終えている
+    await scrollHero(page, 1)
+    await expect(words.last()).toHaveAttribute('data-on', 'true')
+
+    // 戻ると、見出しも元どおり
+    await scrollHero(page, 0)
+    await expect(page.locator('.hero-stage')).toHaveAttribute('data-out', 'false')
+    await expect(page.getByRole('link', { name: 'つくったものを見る' })).toBeVisible()
+  })
+
+  test('機械の札に、点検の結果がそのまま出る', async ({ page }) => {
+    await page.goto('/')
+    await checksFinished(page)
+
+    const readout = page.locator('.readout')
+    await expect(readout.locator('.note[data-status="pass"]')).toHaveCount(2)
+    await expect(readout).toContainText('h1 × 1')
+    await expect(readout).toContainText('640×640')
+    await expect(page.locator('#claims .note')).toHaveText(/根拠\s*6\/6 件/)
+  })
+})
+
+test.describe('目次', () => {
+  test('札を選ぶと、その部屋へ移って閉じる。Esc でも閉じて、フォーカスが戻る', async ({ page }) => {
+    await page.goto('/')
+    const open = page.getByRole('button', { name: '目次' })
+
+    await open.click()
+    const index = page.getByRole('dialog', { name: '目次' })
+    await expect(index.getByRole('link')).toHaveCount(10)
+    // いまいる部屋の札に、印とフォーカスが付いている
+    await expect(index.locator('[aria-current="location"]')).toBeFocused()
+
+    await page.keyboard.press('Escape')
+    await expect(index).toBeHidden()
+    await expect(open).toBeFocused()
+
+    await open.click()
+    await index.getByRole('link', { name: 'つくったもの' }).click()
+    await expect(index).toBeHidden()
+    await expect(page.getByRole('heading', { level: 2, name: 'つくったもの' })).toBeInViewport()
+  })
+})
+
 test.describe('読みやすさ', () => {
   test('自動チェック（axe）で、問題が見つからない', async ({ page }) => {
     await page.goto('/')
@@ -169,6 +236,9 @@ test.describe('「動きを減らす」設定のとき', () => {
     await expect(board(page).locator('li').last()).toContainText('設定はオン。動きを止めています')
     // 見出しは、動きが無くても最初から読める
     await expect(page.locator('h1 .ch').first()).toHaveCSS('opacity', '1')
+    // いちばん上の画面を留めず、自己紹介も、はじめから全部読める
+    await expect(page.locator('.hero')).toHaveAttribute('data-pin', 'false')
+    await expect(page.locator('.intro-text .w').last()).toHaveCSS('opacity', '1')
   })
 })
 

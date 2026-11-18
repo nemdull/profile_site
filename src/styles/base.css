@@ -1,0 +1,337 @@
+/* ───────── 土台：色の組み合わせ、文字、共通の部品 ───────── */
+
+:root {
+  color-scheme: light;
+  /* 見出しの 3 行目が出るまでの時間。Headline.tsx の IGNITE_AT と合わせる */
+  --ignite: 1.7s;
+  --spring: cubic-bezier(0.2, 1.5, 0.4, 1);
+  --glide: cubic-bezier(0.2, 0.9, 0.2, 1);
+  --pad: clamp(1.25rem, 4.2vw, 3.5rem);
+}
+
+/*
+ * 部屋の色。地（--bg）と文字（--ink）、弱い文字（--soft）、目立たせる色（--accent とその上の文字 --on-accent）、
+ * 罫線（--rule）、機械の札の地と文字（--chip / --on-chip）を、ひとまとめに切り替える。
+ * 札や目次の札など、部屋の中の部品にも同じ組を使う。
+ */
+.tone-night {
+  --bg: var(--color-night);
+  --ink: var(--color-moon);
+  --soft: #d5dbff;
+  --accent: var(--color-lemon);
+  --on-accent: var(--color-navy);
+  --rule: rgb(243 242 236 / 0.34);
+  --chip: var(--color-navy);
+  --on-chip: var(--color-moon);
+  --fault: var(--color-lemon);
+}
+
+.tone-navy {
+  --bg: var(--color-navy);
+  --ink: var(--color-moon);
+  --soft: #b9c0ee;
+  --accent: var(--color-lemon);
+  --on-accent: var(--color-navy);
+  --rule: rgb(243 242 236 / 0.24);
+  --chip: var(--color-night);
+  --on-chip: var(--color-moon);
+  --fault: var(--color-alert);
+}
+
+.tone-moon {
+  --bg: var(--color-moon);
+  --ink: var(--color-navy);
+  --soft: #3d4166;
+  --accent: var(--color-night);
+  --on-accent: var(--color-moon);
+  --rule: rgb(10 15 60 / 0.22);
+  --chip: var(--color-navy);
+  --on-chip: var(--color-moon);
+  --fault: var(--color-alert-ink);
+}
+
+.tone-lemon {
+  --bg: var(--color-lemon);
+  --ink: var(--color-navy);
+  --soft: #3f3a2c;
+  --accent: var(--color-navy);
+  --on-accent: var(--color-lemon);
+  --rule: rgb(10 15 60 / 0.3);
+  --chip: var(--color-navy);
+  --on-chip: var(--color-moon);
+  --fault: var(--color-navy);
+}
+
+.tone-lavender {
+  --bg: var(--color-lavender);
+  --ink: var(--color-navy);
+  --soft: #35345f;
+  --accent: var(--color-navy);
+  --on-accent: var(--color-moon);
+  --rule: rgb(10 15 60 / 0.28);
+  --chip: var(--color-navy);
+  --on-chip: var(--color-moon);
+  --fault: var(--color-navy);
+}
+
+html {
+  background: var(--color-night);
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+html[data-lock] {
+  overflow: hidden;
+}
+
+body {
+  color: var(--color-moon);
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.95rem + 0.22vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.9;
+  line-break: strict;
+  overflow-wrap: anywhere;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+::selection {
+  background: var(--color-lemon);
+  color: var(--color-navy);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus, var(--color-lemon));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* 明るい部屋では、黄色の枠が見えにくいので紺にする */
+:is(.tone-moon, .tone-lemon, .tone-lavender) {
+  --focus: var(--color-navy);
+}
+
+:is(.tone-night, .tone-navy) {
+  --focus: var(--color-lemon);
+}
+
+button {
+  cursor: pointer;
+}
+
+.page {
+  width: 100%;
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -5rem;
+  z-index: 90;
+  border-radius: 999px;
+  background: var(--color-lemon);
+  color: var(--color-navy);
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ───────── 人の声の部品：リンク、丸いボタン、丸い札 ───────── */
+
+.link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.14em;
+  text-underline-offset: 0.26em;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+
+.link:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+  text-decoration-color: transparent;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0.65rem 1.5rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.2s var(--spring),
+    box-shadow 0.2s var(--glide);
+}
+
+/* 押せるものは、切り抜いた紙のように少し浮く */
+.btn:hover:not(:disabled) {
+  transform: translate(-2px, -3px);
+  box-shadow: 4px 5px 0 var(--ink);
+}
+
+.btn:active:not(:disabled) {
+  transform: translate(0, 0);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.btn:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.btn-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 4px 5px 0 var(--ink);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.3rem 1.05rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+  transition:
+    background 0.18s,
+    color 0.18s,
+    transform 0.2s var(--spring);
+}
+
+.pill:hover {
+  background: var(--ink);
+  color: var(--bg);
+  transform: translateY(-2px);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+}
+
+.chips li {
+  border: 1.5px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.05rem 0.8rem;
+  color: var(--soft);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+
+/* ───────── 機械の声の部品：ランプ、四角い札 ───────── */
+
+.lamp {
+  flex: none;
+  width: 0.62em;
+  height: 0.62em;
+  border-radius: 50%;
+  background: var(--color-wait);
+}
+
+[data-status="waiting"] > .lamp {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+  opacity: 0.6;
+}
+
+[data-status="pass"] > .lamp,
+[data-state="pass"] > .lamp {
+  background: var(--color-go);
+}
+
+[data-status="fail"] > .lamp,
+[data-state="fail"] > .lamp {
+  background: var(--color-alert);
+}
+
+.note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  max-width: 100%;
+  padding: 0.42em 0.75em 0.42em 0.65em;
+  border-radius: 3px;
+  background: var(--chip);
+  color: var(--on-chip);
+  font-family: var(--font-hud);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+.note-val {
+  opacity: 0.78;
+}
+
+/* 落ちた札は、どの部屋でも紺の地に赤い字にする（群青の地だと、赤い字が読みにくいので） */
+.note[data-status="fail"] {
+  background: var(--color-navy);
+  box-shadow: inset 0 0 0 1.5px var(--color-alert);
+}
+
+.note[data-status="fail"] .note-val {
+  color: var(--color-alert);
+  opacity: 1;
+}
+
+.note:hover {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 壊れた所に出る、ひとこと */
+.fault-note {
+  display: inline-block;
+  margin-top: 0.75rem;
+  border: 2px dashed var(--fault);
+  border-radius: 3px;
+  padding: 0.3rem 0.8rem;
+  color: var(--fault);
+  font-family: var(--font-hud);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* 「壊れた所を見る」で、原因の場所に付く印 */
+[data-ping="true"] {
+  outline: 3px dashed var(--color-alert);
+  outline-offset: 6px;
+  border-radius: 4px;
+}

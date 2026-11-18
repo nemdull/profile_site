@@ -1,0 +1,87 @@
+/* ───────── 部屋の枠と、見出し ───────── */
+
+.room {
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: clip;
+}
+
+/*
+ * 部屋の境目。上の部屋の色のドットが、3 段かけて、だんだんまばらになる（ディザ）。
+ * 色面は人の声だが、そのつなぎ目は、機械がドットで縫っている。
+ * 飾りの擬似要素ではなく本物の要素にしてあるのは、読みやすさの自動チェックが、
+ * 部屋の地の色を迷わず測れるようにするため。
+ */
+.seam {
+  --dot: 0.5rem;
+  height: calc(var(--dot) * 3);
+  background:
+    linear-gradient(90deg, var(--above) 75%, transparent 0) 0 0 / calc(var(--dot) * 4) var(--dot) repeat-x,
+    linear-gradient(90deg, var(--above) 50%, transparent 0) var(--dot) var(--dot) / calc(var(--dot) * 2) var(--dot) repeat-x,
+    linear-gradient(90deg, var(--above) 25%, transparent 0) calc(var(--dot) * 2) calc(var(--dot) * 2) / calc(var(--dot) * 4)
+      var(--dot) repeat-x;
+}
+
+.room > .page {
+  padding-block: clamp(4.5rem, 11vw, 9rem);
+}
+
+/* 夜の部屋は地を透かして、後ろの星空を見せる（html の地が同じ群青） */
+.room.tone-night {
+  background: transparent;
+}
+
+.room-head {
+  margin-bottom: clamp(2.25rem, 5.5vw, 4.5rem);
+}
+
+/*
+ * 見出しは、1 行に収まるいちばん大きな大きさにする（--n は文字数）。
+ * 短い見出しほど大きくなり、長い見出しは画面の幅に合わせて小さくなる。
+ */
+.room-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, calc((min(100vw, 82rem) - var(--pad) * 2) / var(--n) * 0.99), 7.25rem);
+  font-weight: 400;
+  line-height: 1.12;
+  white-space: nowrap;
+}
+
+.room-lead {
+  max-width: 36em;
+  margin-top: clamp(1rem, 2.4vw, 1.75rem);
+  color: var(--soft);
+}
+
+.room-lead p + p {
+  margin-top: 0.8em;
+}
+
+.room-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+/* 見出しの横に、説明と操作を並べる部屋 */
+@media (min-width: 62rem) {
+  .room-head-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  /* 幅が半分になるので、見出しもその幅に収める */
+  .room-head-split .room-title {
+    font-size: clamp(1.75rem, calc((min(50vw, 41rem) - var(--pad) * 1.5) / var(--n) * 0.98), 5rem);
+  }
+}
+
+@media (max-width: 61.99rem) {
+  .room-head-split > :last-child {
+    margin-top: clamp(2rem, 6vw, 3rem);
+  }
+}
