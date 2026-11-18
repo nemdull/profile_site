@@ -18,6 +18,14 @@ jobs:
     name: lint・ビルド・画面のテスト
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    # テスト用のブラウザーと、その動作に要る部品が入った公式のイメージの中で動かす。
+    # 以前は実行のたびに apt で部品を入れていて、配信元の応答待ちで 15 分の時間切れになることがあった
+    # （2026-11-18〜19 は 5 回中 3 回）。イメージの版は、package-lock.json の @playwright/test と同じにする
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --user 1001
+    env:
+      PLAYWRIGHT_IMAGE_VERSION: "1.63.0"
     steps:
       # 外部のアクションは、タグではなくコミットの番号で固定する
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
@@ -30,7 +38,12 @@ jobs:
       - run: npm run lint
       # 内容の点検 → 型チェック → ビルド
       - run: npm run build
-      - name: テスト用のブラウザーを入れる
-        run: npx playwright install --with-deps chromium webkit
+      - name: イメージと @playwright/test の版が合っているか
+        run: |
+          installed="$(node -p "require('@playwright/test/package.json').version")"
+          if [ "$installed" != "$PLAYWRIGHT_IMAGE_VERSION" ]; then
+            echo "::error::@playwright/test は $installed、イメージは $PLAYWRIGHT_IMAGE_VERSION です。ci.yml の image と PLAYWRIGHT_IMAGE_VERSION を $installed に合わせてください"
+            exit 1
+          fi
       - name: 画面のテスト（PC・Android・iPhone の 3 通り）
         run: npm run test:e2e
