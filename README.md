@@ -121,6 +121,7 @@ src/
 └─ index.css       # 書体と色の定義、styles/ の読み込み
 scripts/
 ├─ check-content.mjs  # ビルド前の点検
+├─ check-links.mjs    # 載せているリンクが、いまも開けるか（npm run check:links。PR のときに CI でも走る）
 ├─ subset-fonts.py    # 書体の作り直し
 └─ og.mjs             # 共有したときに出る画像の作り直し
 e2e/
