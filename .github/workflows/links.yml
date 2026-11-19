@@ -1,0 +1,33 @@
+name: リンクの点検
+
+# 載せているリンクが、いまも開けるかを確かめる。
+# 内容（profile.json）を直す PR のときと、手で動かしたときだけ走る。決まった時刻には走らせない
+# （外のサイトの都合で失敗の知らせが届くのを避けるため）
+on:
+  pull_request:
+    paths:
+      - src/content/profile.json
+      - scripts/check-links.mjs
+      - .github/workflows/links.yml
+  workflow_dispatch:
+
+concurrency:
+  group: links-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: リンクが開けるか
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      # 外部のアクションは、タグではなくコミットの番号で固定する
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 22
+      # Node に入っている機能だけで動く。パッケージは入れない
+      - run: node scripts/check-links.mjs

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "check": "node scripts/check-content.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "build": "npm run check && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
