@@ -29,6 +29,7 @@ Vite、React 19、TypeScript、Tailwind CSS 4 で作っています。アニメ�
 npm install
 npm run dev      # 開発サーバー
 npm run check    # 内容の点検だけ
+npm run check:links # 載せているリンクが、いまも開けるか（ネットワークに出ます）
 npm run build    # 内容の点検 → 型チェック → ビルド
 npm run preview  # ビルド結果の確認
 npm run lint
@@ -45,6 +46,8 @@ Node.js は 20.19 以上、または 22.12 以上。
 `links`（GitHub・X・Zenn・Qiita など、自分のほかのページ）は、画面のリンクになるだけでなく、ビルドのときに検索エンジン向けの情報（schema.org の Person の `sameAs`）としても埋め込まれます。`robots.txt` と `sitemap.xml` も、同じ JSON から作っています（`vite.config.ts`）。
 
 新しいサイトへリンクを張るときは、先に `src/content/allowed-hosts.json` に足します。ビルド前の点検と、ページを開いたときの点検の両方が、この一覧を見ています。
+
+リンクを足したり直したりしたら、`npm run check:links` で、行き先がいまも開けるかを確かめられます。`profile.json` を直す PR では、CI でも同じ点検が走ります。結果は「開けた／確かめられず／切れている」の 3 つで、失敗になるのは「切れている」（404・410、サイトそのものが無い）ときだけです。機械からのアクセスを断るサイトや、眠っていて返事が遅いサイトは「確かめられず」として知らせるだけにしています。X と Instagram は、ログインしないと確かめられないので、開きに行きません。
 
 部屋の並びと色は `src/content/rooms.ts` にあります。目次の札と、上の帯の「いまここ」（`#works` など）も、この一覧から作っています。
 
