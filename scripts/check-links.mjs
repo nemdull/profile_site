@@ -17,6 +17,10 @@ const profile = JSON.parse(readFileSync(new URL('../src/content/profile.json', i
 const BROWSER_ONLY = new Set(['x.com', 'instagram.com'])
 const TIMEOUT_MS = 60_000
 const PARALLEL = 4
+// 無料の置き場は、しばらく誰も来ないと眠っていて、起きるまで 503 を返すことがある。
+// すぐにあきらめず、間をあけて 3 回まで開いてみる
+const ATTEMPTS = 3
+const WAIT_MS = [20_000, 40_000]
 
 const found = new Map()
 const walk = (value, path) => {
@@ -45,7 +49,7 @@ async function check(url) {
   if (BROWSER_ONLY.has(host)) return { kind: 'unknown', note: 'ログインしないと確かめられないサイト' }
 
   let last = ''
-  for (let attempt = 1; attempt <= 2; attempt++) {
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
     try {
       const status = await open(url)
       if (status >= 200 && status < 300) return { kind: 'ok', note: String(status) }
@@ -55,13 +59,13 @@ async function check(url) {
       if (status < 500) return { kind: 'unknown', note: `${status}（機械からの確認を断られた）` }
     } catch (error) {
       const code = error?.cause?.code ?? error?.name ?? 'error'
-      // 名前が引けないのは、サイトが無くなったか、名前を引く仕組みの一時的な不調。2 回続いたら「無い」とみなす
-      if (code === 'ENOTFOUND' && attempt === 2) return { kind: 'dead', note: 'サイトが見つからない' }
+      // 名前が引けないのは、サイトが無くなったか、名前を引く仕組みの一時的な不調。最後まで続いたら「無い」とみなす
+      if (code === 'ENOTFOUND' && attempt === ATTEMPTS) return { kind: 'dead', note: 'サイトが見つからない' }
       last = code === 'TimeoutError' ? `${TIMEOUT_MS / 1000} 秒待っても返事がない` : code
     }
-    if (attempt === 1) await new Promise((resolve) => setTimeout(resolve, 5_000))
+    if (attempt < ATTEMPTS) await new Promise((resolve) => setTimeout(resolve, WAIT_MS[attempt - 1]))
   }
-  return { kind: 'unknown', note: `${last}（一時的なものかもしれない）` }
+  return { kind: 'unknown', note: `${last}（${ATTEMPTS} 回とも。眠っているだけか、止まっているかは、開いて確かめる）` }
 }
 
 const queue = [...found.entries()]
