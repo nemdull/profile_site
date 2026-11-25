@@ -128,12 +128,32 @@ scripts/
 ├─ subset-fonts.py    # 書体の作り直し
 └─ og.mjs             # 共有したときに出る画像の作り直し
 e2e/
-└─ portfolio.spec.ts  # 画面を実際に開いて確かめるテスト（Playwright）
+├─ portfolio.spec.ts         # 画面を実際に開いて確かめるテスト（Playwright）
+└─ security-headers.spec.ts  # 公開先と同じ安全のヘッダーを付けても、画面が壊れないか
+vercel.json                  # 公開先（Vercel）で付ける安全のヘッダー
 ```
 
 ## デプロイ
 
 main に入ると、Vercel が自動で公開します。プルリクエストごとに、確認用の URL ができます。
+
+### 安全のヘッダー
+
+公開先では、`vercel.json` に書いたヘッダーが、すべての応答に付きます。
+
+| ヘッダー | 何を止めるか |
+| --- | --- |
+| `Content-Security-Policy` | このサイト以外から来たスクリプト・画像・書体の読み込みと、ページに差し込まれたスクリプトの実行。ほかのサイトの枠の中に表示されること |
+| `X-Frame-Options` | 同上（古いブラウザー向け） |
+| `X-Content-Type-Options` | ファイルの種類を、ブラウザーが勝手に読み替えること |
+| `Referrer-Policy` | リンク先のサイトに、ページの細かい URL が伝わること |
+| `Permissions-Policy` | カメラ・マイク・位置情報などを使うこと（このサイトは使わない） |
+| `Cross-Origin-Opener-Policy` | このサイトから開いた別のサイトが、元の画面を操作すること |
+
+- スタイルだけは、HTML に直接書いたもの（`style=`）を許しています。JavaScript が動かないときに出す案内文の見た目に使っているためです
+- 外部のスクリプト・画像・書体・解析タグを足すときは、`vercel.json` の `Content-Security-Policy` に、その配信元を足します。足し忘れると、`e2e/security-headers.spec.ts` が落ちて気づけます
+- 確認用の URL（プレビュー）では、Vercel のコメント用の道具（vercel.live）もこの決まりで止まります。画面の確認には影響しません
+- 実際に付いているかは、公開後に `curl -sI https://www.nemdull.com/ | grep -i -E "content-security|x-frame|x-content|referrer|permissions|cross-origin"` で確かめられます
 
 ## 書体のライセンス
 
